@@ -5,5 +5,5 @@ const router = Router()
 router.get("/", (_: Request, resp: Response) => {
     resp.send("educations")
 })
-router.get("/greeting", controller.greeting)
+router.post("/", controller.create)
 export default router

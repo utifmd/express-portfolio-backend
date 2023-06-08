@@ -1,3 +1,16 @@
+interface IEducation {
+    id?: string,
+    title: string,
+    desc: string,
+    content: string,
+    fileUrl: string,
+    imageUrl: string,
+    createdAt?: any
+    updatedAt?: any
+}
+interface IErrorResponse {
+    message: string
+}
 interface IEnvVariable {
     PORT: number
     CLIENT_ORIGIN: string

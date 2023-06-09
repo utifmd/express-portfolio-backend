@@ -9,10 +9,11 @@ class EducationController {
             // .findAndCountAll({limit: size, offset: page})
             resp.send(response)
         } catch (e) {
+            const error = e as Error
 
-            resp.status(500).send(
-                <IMessageResponse>{message: JSON.stringify(e)}
-            )
+            resp.status(500).send(<TMessageResponse>{
+                message: error.message || JSON.stringify(error)
+            })
         }
     }
     static async create(req: Request, resp: Response) {
@@ -22,10 +23,11 @@ class EducationController {
 
             resp.send(response)
         } catch (e) {
+            const error = e as Error
 
-            resp.status(500).send(
-                <IMessageResponse>{message: JSON.stringify(e)}
-            )
+            resp.status(500).send(<TMessageResponse>{
+                message: error.message || JSON.stringify(error)
+            })
         }
     }
     static async update(req: Request, resp: Response) {
@@ -37,18 +39,19 @@ class EducationController {
             )
             if (affectedCount > 0) {
                 resp.status(200).send(
-                    <IMessageResponse>{message: `Education with educationId ${id} has been updated`}
+                    <TMessageResponse>{message: `Education with educationId ${id} has been updated`}
                 )
                 return
             }
             resp.status(500).send(
-                <IMessageResponse>{message: `Couldn\'t update education with educationId ${id}`}
+                <TMessageResponse>{message: `Couldn\'t update education with educationId ${id}`}
             )
         } catch (e) {
+            const error = e as Error
 
-            resp.status(500).send(
-                <IMessageResponse>{message: JSON.stringify(e)}
-            )
+            resp.status(500).send(<TMessageResponse>{
+                message: error.message || JSON.stringify(error)
+            })
         }
     }
     static async delete(req: Request, resp: Response) {
@@ -57,18 +60,19 @@ class EducationController {
             const affectedCount = await Education.destroy({where: {id}})
             if (affectedCount > 0) {
                 resp.status(200).send(
-                    <IMessageResponse>{message: `Education with educationId ${id} has been deleted`}
+                    <TMessageResponse>{message: `Education with educationId ${id} has been deleted`}
                 )
                 return
             }
             resp.status(500).send(
-                <IMessageResponse>{message: `Couldn\'t delete education with educationId ${id}`}
+                <TMessageResponse>{message: `Couldn\'t delete education with educationId ${id}`}
             )
         } catch (e) {
+            const error = e as Error
 
-            resp.status(500).send(
-                <IMessageResponse>{message: JSON.stringify(e)}
-            )
+            resp.status(500).send(<TMessageResponse>{
+                message: error.message || JSON.stringify(error)
+            })
         }
     }
 }

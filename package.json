@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "rimraf dist && npx tsc",
+    "build": "rimraf bin && npx tsc",
     "prestart": "npm run build",
-    "start": "node dist/server.js",
+    "start": "node bin/server.js",
     "preserve": "npm run build",
-    "serve": "concurrently \"npx tsc -w\" \"nodemon dist/server.js\" "
+    "serve": "concurrently \"npx tsc -w\" \"nodemon bin/server.js\" "
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -27,8 +27,10 @@
     "sequelize-typescript": "^2.1.5"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/morgan": "^1.9.4",
     "@types/node": "^20.2.5",
     "@types/validator": "^13.7.17",

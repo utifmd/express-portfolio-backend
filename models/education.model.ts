@@ -1,6 +1,6 @@
 import {Column, Model, Table} from "sequelize-typescript";
 
-@Table({timestamps: true})
+@Table
 export class Education extends Model<Education> implements IEducation {
     @Column
     title!: string;

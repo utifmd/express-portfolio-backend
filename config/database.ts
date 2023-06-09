@@ -1,5 +1,6 @@
 import {Sequelize} from "sequelize-typescript";
 import {Education} from "../models/education.model";
+import {Authentication} from "../models/authentication.model";
 
 const {
     DB_HOST,
@@ -21,4 +22,5 @@ export const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
         idle: 10000
     }
 })
-sequelize.addModels([Education])
+
+sequelize.addModels([Education, Authentication])

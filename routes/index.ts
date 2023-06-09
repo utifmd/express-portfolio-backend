@@ -1,7 +1,7 @@
-import express, {Request, Response} from "express";
+import express, {Request, Response} from "express"
 import educationRouter from "./education"
-import experienceRouter from "./experience";
-import authenticationRouter from "./authentication";
+import experienceRouter from "./experience"
+import authenticationRouter from "./authentication"
 
 const router = express.Router();
 /* GET home page. */

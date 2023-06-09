@@ -1,7 +1,7 @@
-import {Router, Request, Response} from "express"
+import {Router} from "express"
+import {AuthenticationController} from "../controllers/AuthenticationController";
 
 const router = Router()
-router.get("/", (_: Request, resp: Response) => {
-    resp.send("authentication")
-})
+router.post("/sign-in", AuthenticationController.signIn)
+router.post("/sign-up", AuthenticationController.signUp)
 export default router

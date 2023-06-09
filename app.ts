@@ -1,9 +1,11 @@
 import express from "express"
+import {config as configureDotenv} from "dotenv"
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import path from 'path'
 import router from './routes'
-require("dotenv").config()
+
+configureDotenv()
 export const app = express();
 app.use(logger('dev'));
 app.use(express.json());

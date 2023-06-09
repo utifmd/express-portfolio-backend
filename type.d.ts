@@ -1,6 +1,9 @@
 interface IAuthentication {
+    id?: string,
     email: string,
-    password: string
+    password: string,
+    createdAt?: any,
+    updatedAt?: any
 }
 interface IEducation {
     id?: string,
@@ -9,7 +12,7 @@ interface IEducation {
     content: string,
     fileUrl: string,
     imageUrl: string,
-    createdAt?: any
+    createdAt?: any,
     updatedAt?: any
 }
 interface ITokenProps {

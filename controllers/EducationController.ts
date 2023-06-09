@@ -8,9 +8,9 @@ class EducationController {
             const response = await Education.findAll({limit: size, offset: page})
             // .findAndCountAll({limit: size, offset: page})
             resp.send(response)
+
         } catch (e) {
             const error = e as Error
-
             resp.status(500).send(<TMessageResponse>{
                 message: error.message || JSON.stringify(error)
             })
@@ -20,11 +20,10 @@ class EducationController {
         try {
             const request = req.body as IEducation
             const response = await Education.asResponse(request).save()
-
             resp.send(response)
+
         } catch (e) {
             const error = e as Error
-
             resp.status(500).send(<TMessageResponse>{
                 message: error.message || JSON.stringify(error)
             })
@@ -46,9 +45,9 @@ class EducationController {
             resp.status(500).send(
                 <TMessageResponse>{message: `Couldn\'t update education with educationId ${id}`}
             )
+
         } catch (e) {
             const error = e as Error
-
             resp.status(500).send(<TMessageResponse>{
                 message: error.message || JSON.stringify(error)
             })
@@ -67,9 +66,9 @@ class EducationController {
             resp.status(500).send(
                 <TMessageResponse>{message: `Couldn\'t delete education with educationId ${id}`}
             )
+
         } catch (e) {
             const error = e as Error
-
             resp.status(500).send(<TMessageResponse>{
                 message: error.message || JSON.stringify(error)
             })

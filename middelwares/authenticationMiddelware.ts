@@ -1,21 +1,23 @@
 import {NextFunction, Request, Response} from "express";
 import {Authentication} from "../models/authentication.model";
 
-export const verifyAuthentication = (req: Request, resp: Response, next: NextFunction) => {
+export const authorization = (req: Request, resp: Response, next: NextFunction) => {
     try {
         const {token} = req.headers as TTokenResponse
         if (!token) {
             resp.status(401).send(<TMessageResponse>{
-                message: `Login session was expired`
+                message: `Unauthorized! login first`
             })
             return
         }
         const {id} = Authentication.verifyToken(token) as ITokenProps
         resp.locals.authId = id
-
         next()
-    } catch (e) {
 
-        resp.status(401).send(<TMessageResponse>{message: JSON.stringify(e)})
+    } catch (e) {
+        const error = e as Error
+        resp.status(401).send(
+            <TMessageResponse>{message: error.message || JSON.stringify(error)}
+        )
     }
 }

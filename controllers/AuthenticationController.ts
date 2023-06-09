@@ -14,11 +14,12 @@ export class AuthenticationController {
             }
             if (!response.comparePassword(password)){
                 resp.status(403).send(
-                    <TMessageResponse>{message: `User\'s password with email ${email} doesn\'t match`}
+                    <TMessageResponse>{message: `User password with email ${email} doesn\'t match`}
                 )
                 return
             }
             resp.status(200).send(<TTokenResponse>{token: response.signToken()})
+
         } catch (e) {
             const error = e as Error
 
@@ -43,6 +44,7 @@ export class AuthenticationController {
 
             const response = await auth.save()
             resp.status(200).send(<TTokenResponse>{token: response.signToken()})
+
         } catch (e) {
             const error = e as Error
 

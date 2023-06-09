@@ -1,7 +1,12 @@
-import {Column, Model, Table} from "sequelize-typescript";
+import {Column, DataType, IsUrl, Model, PrimaryKey, Table} from "sequelize-typescript";
+import {randomUUID} from "crypto";
 
-@Table
+@Table({tableName: "educations"})
 export class Education extends Model<Education> implements IEducation {
+    @PrimaryKey
+    @Column({type: DataType.UUID, defaultValue: randomUUID()})
+    id?: string
+
     @Column
     title!: string;
 
@@ -11,10 +16,12 @@ export class Education extends Model<Education> implements IEducation {
     @Column
     content!: string;
 
-    @Column
+    @IsUrl
+    @Column({defaultValue: "https://api.github.com/users/utifmd"})
     fileUrl!: string;
 
-    @Column
+    @IsUrl
+    @Column({defaultValue: "https://via.plaveholder.com/150"})
     imageUrl!: string;
 
     static asResponse(body: IEducation): Education {

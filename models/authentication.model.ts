@@ -1,9 +1,15 @@
-import {Column, Model, Table} from "sequelize-typescript";
+import {Column, DataType, IsEmail, Length, Model, PrimaryKey, Table} from "sequelize-typescript";
 import {hashSync, compareSync, genSalt} from "bcrypt"
 import {sign, verify} from "jsonwebtoken"
+import {randomUUID} from "crypto";
 
-@Table
+@Table({tableName: "authentications"})
 export class Authentication extends Model<Authentication> implements IAuthentication {
+    @PrimaryKey
+    @Column({type: DataType.UUID, defaultValue: randomUUID()})
+    id?: string
+
+    @IsEmail
     @Column
     email!: string
 

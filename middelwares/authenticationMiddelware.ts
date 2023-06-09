@@ -5,13 +5,11 @@ export const authorization = (req: Request, resp: Response, next: NextFunction) 
     try {
         const {token} = req.headers as TTokenResponse
         if (!token) {
-            resp.status(401).send(<TMessageResponse>{
-                message: `Unauthorized! login first`
-            })
+            resp.status(401).send(<TMessageResponse>{message: `Unauthorized`})
             return
         }
         const {id} = Authentication.verifyToken(token) as ITokenProps
-        resp.locals.authId = id
+        (resp.locals as TLocalsResponse).authId = id
         next()
 
     } catch (e) {

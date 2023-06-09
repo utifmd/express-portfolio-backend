@@ -25,6 +25,9 @@ type TMessageResponse = {
 type TTokenResponse = {
     token: string
 }
+type TLocalsResponse = {
+    authId: string
+}
 interface IEnvVariable {
     PORT: number,
     CLIENT_ORIGIN: string,

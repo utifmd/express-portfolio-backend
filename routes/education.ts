@@ -1,12 +1,10 @@
 import {Router} from "express"
 import controller from "../controllers/EducationController"
-/*
-* TODO
-*  1. authentication middleware
-* */
+import {authorization} from "../middelwares/authenticationMiddelware"
+
 const router = Router()
-router.post("/", controller.create)
+router.post("/", authorization, controller.create)
 router.get("/", controller.paged)
-router.put("/", controller.update)
-router.delete("/", controller.delete)
+router.put("/", authorization, controller.update)
+router.delete("/", authorization, controller.delete)
 export default router

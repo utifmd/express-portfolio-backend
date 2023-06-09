@@ -11,6 +11,6 @@ router.get('/', function(_: Request, res: Response) {
 });
 router.use("/authentication", authenticationRouter)
 router.use("/educations", educationRouter)
-router.use("/experience", experienceRouter)
+router.use("/experiences", experienceRouter)
 
 export default router;

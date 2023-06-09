@@ -1,4 +1,4 @@
-import {Column, DataType, IsEmail, Length, Model, PrimaryKey, Table} from "sequelize-typescript";
+import {Column, DataType, IsEmail, Length, Model, NotNull, PrimaryKey, Table} from "sequelize-typescript";
 import {hashSync, compareSync, genSalt} from "bcrypt"
 import {sign, verify} from "jsonwebtoken"
 import {randomUUID} from "crypto";
@@ -10,24 +10,27 @@ export class Authentication extends Model<Authentication> implements IAuthentica
     id?: string
 
     @IsEmail
-    @Column
+    @NotNull
+    @Column({allowNull: false})
     email!: string
 
-    @Column
+    @NotNull
+    @Column({allowNull: false})
     password!: string
 
-    static asResponse(auth: IAuthentication){
-        const authentication = new Authentication()
-        authentication.email = auth.email
-        authentication.password = auth.password
-        return authentication
+    static async asModel(auth: IAuthentication){
+        const model = new Authentication()
+        model.id = auth.id || randomUUID()
+        model.email = auth.email
+        model.password = await model.hashPassword(auth.password)
+        return model
     }
 
-    async hashPassword() {
+    async hashPassword(plain: string) {
         const roundsOrNull = process.env.SALT_ROUND
         const rounds = typeof roundsOrNull !== "undefined" ? parseInt(roundsOrNull) : 10
         const salt= await genSalt(rounds)
-        return hashSync(this.password, salt)
+        return hashSync(plain, salt)
     }
 
     comparePassword(plain: string) {

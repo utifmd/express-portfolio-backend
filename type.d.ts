@@ -15,6 +15,20 @@ interface IEducation {
     createdAt?: any,
     updatedAt?: any
 }
+interface IExperience {
+    id?: string,
+    type: string, // "front-end" | "back-end" | "mobile",
+    title: string,
+    description: string,
+    platform: string, // "android" | "ios" | "web",
+    stack: string[],
+    imageUrls: string[],
+    iconUrl: string,
+    releasedUrl: string,
+    demoUrl?: string,
+    createdAt?: any,
+    updatedAt?: any
+}
 interface ITokenProps {
     id: string,
     createdAt: any

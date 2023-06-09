@@ -1,13 +1,11 @@
 import {Request, Response} from "express";
-import {Education} from "../models/education.model"
-import {randomUUID} from "crypto";
+import {Experience} from "../models/experience.model";
 
-class EducationController {
+class ExperienceController {
     static async paged(req: Request, resp: Response) {
         try {
             const {page, size} = req.query as IReqQuery
-            const response = await Education.findAll({limit: size, offset: page})
-            // .findAndCountAll({limit: size, offset: page})
+            const response = await Experience.findAll({limit: size, offset: page})
             resp.send(response)
 
         } catch (e) {
@@ -19,12 +17,13 @@ class EducationController {
     }
     static async create(req: Request, resp: Response) {
         try {
-            const request = req.body as IEducation
-            const response = await Education.asModel(request).save()
+            const request = req.body as IExperience
+            const response = await Experience.asModel(request).save()
             resp.send(response)
 
         } catch (e) {
             const error = e as Error
+            console.log(error)
             resp.status(500).send(<TMessageResponse>{
                 message: error.message || JSON.stringify(error)
             })
@@ -33,18 +32,18 @@ class EducationController {
     static async update(req: Request, resp: Response) {
         try {
             const {id} = req.query as IReqQuery
-            const request = req.body as IEducation
-            const [affectedCount] = await Education.update(
+            const request = req.body as IExperience
+            const [affectedCount] = await Experience.update(
                 request, {where: {id}}
             )
             if (affectedCount > 0) {
                 resp.status(200).send(
-                    <TMessageResponse>{message: `Education with educationId ${id} has been updated`}
+                    <TMessageResponse>{message: `Experience with experienceId ${id} has been updated`}
                 )
                 return
             }
             resp.status(500).send(
-                <TMessageResponse>{message: `Couldn\'t update education with educationId ${id}`}
+                <TMessageResponse>{message: `Couldn\'t update experience with experienceId ${id}`}
             )
 
         } catch (e) {
@@ -57,15 +56,15 @@ class EducationController {
     static async delete(req: Request, resp: Response) {
         try {
             const {id} = req.query as IReqQuery
-            const affectedCount = await Education.destroy({where: {id}})
+            const affectedCount = await Experience.destroy({where: {id}})
             if (affectedCount > 0) {
                 resp.status(200).send(
-                    <TMessageResponse>{message: `Education with educationId ${id} has been deleted`}
+                    <TMessageResponse>{message: `Experience with experienceId ${id} has been deleted`}
                 )
                 return
             }
             resp.status(500).send(
-                <TMessageResponse>{message: `Couldn\'t delete education with educationId ${id}`}
+                <TMessageResponse>{message: `Couldn\'t delete experience with experienceId ${id}`}
             )
 
         } catch (e) {
@@ -76,5 +75,4 @@ class EducationController {
         }
     }
 }
-
-export default EducationController
+export default ExperienceController

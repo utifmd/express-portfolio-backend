@@ -39,10 +39,8 @@ export class AuthenticationController {
                 )
                 return
             }
-            const auth = Authentication.asResponse(request)
-            auth.password = await auth.hashPassword()
-
-            const response = await auth.save()
+            const model = await Authentication.asModel(request)
+            const response = await model.save()
             resp.status(200).send(<TTokenResponse>{token: response.signToken()})
 
         } catch (e) {

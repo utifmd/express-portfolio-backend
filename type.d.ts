@@ -8,7 +8,7 @@ interface IEducation {
     createdAt?: any
     updatedAt?: any
 }
-interface IErrorResponse {
+interface IMessageResponse {
     message: string
 }
 interface IEnvVariable {
@@ -20,4 +20,9 @@ interface IEnvVariable {
     DB_USER: string
     DB_PORT: number
     DB_DIALECT: any
+}
+interface IReqQuery {
+    id?: number,
+    page?: number,
+    size?: number
 }

@@ -2,6 +2,7 @@ import {Sequelize} from "sequelize-typescript";
 import {Education} from "../models/education.model";
 import {Authentication} from "../models/authentication.model";
 import {Experience} from "../models/experience.model";
+import {File} from "../models/file.model";
 
 const {
     DB_HOST,
@@ -25,5 +26,5 @@ export const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
 })
 
 sequelize.addModels([
-    Authentication, Education, Experience
+    Authentication, Education, Experience, File
 ])

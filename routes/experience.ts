@@ -1,5 +1,5 @@
 import {Router} from "express"
-import {authorization} from "../middelwares/authenticationMiddelware";
+import {authorizer} from "../middelwares/authorizer";
 import controller from "../controllers/ExperienceController";
 /*
 * TODO
@@ -7,8 +7,8 @@ import controller from "../controllers/ExperienceController";
 *  2. create file model
 * */
 const router = Router()
-router.post("/", authorization, controller.create)
+router.post("/", authorizer, controller.create)
 router.get("/", controller.paged)
-router.put("/", authorization, controller.update)
-router.delete("/", authorization, controller.delete)
+router.put("/", authorizer, controller.update)
+router.delete("/", authorizer, controller.delete)
 export default router

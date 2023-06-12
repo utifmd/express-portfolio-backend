@@ -29,6 +29,9 @@ interface IExperience {
     createdAt?: any,
     updatedAt?: any
 }
+interface IFile {
+    value: string
+}
 interface ITokenProps {
     id: string,
     createdAt: any
@@ -40,7 +43,8 @@ type TTokenResponse = {
     token: string
 }
 type TLocalsResponse = {
-    authId: string
+    authId?: string
+    file?: any
 }
 interface IEnvVariable {
     PORT: number,

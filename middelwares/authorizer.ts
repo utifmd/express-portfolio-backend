@@ -1,7 +1,7 @@
 import {NextFunction, Request, Response} from "express";
 import {Authentication} from "../models/authentication.model";
 
-export const authorization = (req: Request, resp: Response, next: NextFunction) => {
+export const authorizer = (req: Request, resp: Response, next: NextFunction) => {
     try {
         const {token} = req.headers as TTokenResponse
         if (!token) {
@@ -14,8 +14,10 @@ export const authorization = (req: Request, resp: Response, next: NextFunction) 
 
     } catch (e) {
         const error = e as Error
+        console.log(error.message || JSON.stringify(error))
+
         resp.status(401).send(
-            <TMessageResponse>{message: error.message || JSON.stringify(error)}
+            <TMessageResponse>{message: `Login session ended`}
         )
     }
 }

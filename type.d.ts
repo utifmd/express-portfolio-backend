@@ -30,7 +30,10 @@ interface IExperience {
     updatedAt?: any
 }
 interface IFile {
-    value: string
+    id?: string
+    mimeType: string
+    size: number
+    buffer: any
 }
 interface ITokenProps {
     id: string,
@@ -39,12 +42,16 @@ interface ITokenProps {
 type TMessageResponse = {
     message: string
 }
+type TParamsRequest = {
+    id: string
+}
 type TTokenResponse = {
     token: string
 }
 type TLocalsResponse = {
-    authId?: string
-    file?: any
+    authId: string
+    fileUrl: string
+    file: any
 }
 interface IEnvVariable {
     PORT: number,

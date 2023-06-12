@@ -1,10 +1,9 @@
 import {NextFunction, Request, RequestHandler, Response} from "express";
 import multer from "multer";
-import {File} from "../models/file.model";
 
-export const uploader = async (req: Request, resp: Response, next: NextFunction) => {
+export const filer = async (req: Request, resp: Response, next: NextFunction) => {
     const upload: RequestHandler = multer().single("image-upload")
-    return upload(req, resp, async (e) => {
+    return upload(req, resp, (e) => {
         const error = e as Error
 
         if (typeof error !== "undefined") {
@@ -19,8 +18,7 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
             next()
             return
         }
-        const response = await File.asModel(req.file).save();
-        (resp.locals as TLocalsResponse).fileUrl = req.protocol + "://" + req.get("host") + `/files/${response.id}`
+        (resp.locals as TLocalsResponse).file = req.file
         next()
     });
 }

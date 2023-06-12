@@ -24,7 +24,7 @@ export class Education extends Model<Education> implements IEducation {
     @Column({allowNull: false})
     fileUrl!: string;
 
-    @IsUrl
+    // @IsUrl
     @NotNull
     @Column({allowNull: false})
     imageUrl!: string;

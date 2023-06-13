@@ -35,21 +35,23 @@ class ExperienceController {
     static async update(req: Request, resp: Response) {
         try {
             const {id} = req.query as IReqQuery
-            const {singleFileUrls} = resp.locals as TLocalsResponse
+            const {singleFileUrls, multipleFileUrls} = resp.locals as TLocalsResponse
             const request = req.body as IExperience
-            request.iconUrl = singleFileUrls[0]
+            request.iconUrl = request.iconUrl.length > 0
+                ? request.iconUrl : singleFileUrls[0]
+            request.imageUrls = request.imageUrls.length > 0
+                ? request.imageUrls : multipleFileUrls
+
             const [affectedCount] = await Experience.update(
                 request, {where: {id}}
             )
             if (affectedCount > 0) {
-                resp.status(200).send(
-                    <TMessageResponse>{message: `Experience with experienceId ${id} has been updated`}
-                )
+                resp.status(200).send(<TMessageResponse>{
+                    message: `Experience with experienceId ${id} has been updated`})
                 return
             }
-            resp.status(500).send(
-                <TMessageResponse>{message: `Couldn\'t update experience with experienceId ${id}`}
-            )
+            resp.status(500).send(<TMessageResponse>{
+                message: `Couldn\'t update experience with experienceId ${id}`})
 
         } catch (e) {
             const error = e as Error
@@ -63,14 +65,12 @@ class ExperienceController {
             const {id} = req.query as IReqQuery
             const affectedCount = await Experience.destroy({where: {id}})
             if (affectedCount > 0) {
-                resp.status(200).send(
-                    <TMessageResponse>{message: `Experience with experienceId ${id} has been deleted`}
-                )
+                resp.status(200).send(<TMessageResponse>{
+                    message: `Experience with experienceId ${id} has been deleted`})
                 return
             }
-            resp.status(500).send(
-                <TMessageResponse>{message: `Couldn\'t delete experience with experienceId ${id}`}
-            )
+            resp.status(500).send(<TMessageResponse>{
+                message: `Couldn\'t delete experience with experienceId ${id}`})
 
         } catch (e) {
             const error = e as Error

@@ -2,6 +2,20 @@ import {Request, Response} from "express"
 import {Authentication} from "../models/authentication.model";
 
 export class AuthenticationController {
+    static async authenticate(req: Request, resp: Response){
+        try {
+            const {authId} = resp.locals as TLocalsResponse
+            resp.status(200).send(
+                <TMessageResponse>{message: `Authorized with id ${authId}`}
+            )
+        } catch (e) {
+            const error = e as Error
+
+            resp.status(500).send(<TMessageResponse>{
+                message: error.message || JSON.stringify(error)
+            })
+        }
+    }
     static async signIn(req: Request, resp: Response){
         try {
             const {email, password} = req.body as IAuthentication

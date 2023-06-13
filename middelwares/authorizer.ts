@@ -14,10 +14,11 @@ export const authorizer = (req: Request, resp: Response, next: NextFunction) => 
 
     } catch (e) {
         const error = e as Error
-        console.log(error.message || JSON.stringify(error))
-
+        const message = error.message.replace(
+            "jwt", "login token"
+        )
         resp.status(401).send(
-            <TMessageResponse>{message: `Login session ended`}
+            <TMessageResponse>{message}
         )
     }
 }

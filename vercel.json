@@ -3,12 +3,13 @@
   "builds": [
     {
       "src": "bin/index.js",
-      "use": "@now/node"
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["bin/**"] }
     }
   ],
   "routes": [
     {
-      "src": "bin/(.*)",
+      "src": "/(.*)",
       "dest": "bin/index.js"
     }
   ]

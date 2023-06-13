@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sequelize = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
+const pg_1 = __importDefault(require("pg"));
 const education_model_1 = require("../models/education.model");
 const authentication_model_1 = require("../models/authentication.model");
 const experience_model_1 = require("../models/experience.model");
@@ -11,6 +15,7 @@ exports.sequelize = new sequelize_typescript_1.Sequelize(DB_NAME, DB_USER, DB_PA
     host: DB_HOST,
     port: DB_PORT,
     dialect: DB_DIALECT,
+    dialectModule: pg_1.default,
     pool: {
         max: 5,
         min: 0,

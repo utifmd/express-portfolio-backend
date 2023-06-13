@@ -1,4 +1,5 @@
 import {Sequelize} from "sequelize-typescript";
+import postgres from "pg"
 import {Education} from "../models/education.model";
 import {Authentication} from "../models/authentication.model";
 import {Experience} from "../models/experience.model";
@@ -17,6 +18,7 @@ export const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     host: DB_HOST,
     port: DB_PORT,
     dialect: DB_DIALECT,
+    dialectModule: postgres,
     pool: {
         max: 5,
         min: 0,

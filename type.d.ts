@@ -48,10 +48,14 @@ type TParamsRequest = {
 type TTokenResponse = {
     token: string
 }
+type TDataResponse = {
+    data: any
+}
 type TLocalsResponse = {
     authId: string
-    fileUrl: string
-    file: any
+    singleFileUrls: string[]
+    multipleFileUrls: string[]
+    files: any[]
 }
 interface IEnvVariable {
     PORT: number,

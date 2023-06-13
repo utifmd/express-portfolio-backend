@@ -4,8 +4,8 @@ import {File} from "../models/file.model";
 export class FileController {
     static async create(req: Request, resp: Response) {
         try {
-            const {file} = resp.locals as TLocalsResponse // req.file
-            const response = await File.asModel(file).save()
+            const {files} = resp.locals as TLocalsResponse // req.file
+            const response = await File.asModel(files[0]).save()
             let fileUrl: string = req.protocol + "://" + req.get("host") + `/files/${response.id}`
             resp
                 .status(200)
@@ -13,6 +13,23 @@ export class FileController {
                 .setHeader('Content-Length', response.size)
                 .setHeader('File-Url', fileUrl)
                 .send(response.buffer)
+
+        } catch (e) {
+            const {message} = e as Error
+
+            resp.send(<TMessageResponse>{message})
+        }
+    }
+    static async createAll(req: Request, resp: Response) {
+        try {
+            const {files} = resp.locals as TLocalsResponse // req.file
+            const fileUrls: string[] = []
+            for (const file of Object.values(files)){
+                const response = await File.asModel(file).save()
+                let fileUrl: string = req.protocol + "://" + req.get("host") + `/files/${response.id}`
+                fileUrls.push(fileUrl)
+            }
+            resp.status(200).send(<TDataResponse>{data: fileUrls})
 
         } catch (e) {
             const {message} = e as Error

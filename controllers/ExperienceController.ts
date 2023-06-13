@@ -18,6 +18,9 @@ class ExperienceController {
     static async create(req: Request, resp: Response) {
         try {
             const request = req.body as IExperience
+            const {singleFileUrls, multipleFileUrls} = resp.locals as TLocalsResponse
+            request.iconUrl = singleFileUrls[0]
+            request.imageUrls = multipleFileUrls
             const response = await Experience.asModel(request).save()
             resp.send(response)
 
@@ -32,7 +35,9 @@ class ExperienceController {
     static async update(req: Request, resp: Response) {
         try {
             const {id} = req.query as IReqQuery
+            const {singleFileUrls} = resp.locals as TLocalsResponse
             const request = req.body as IExperience
+            request.iconUrl = singleFileUrls[0]
             const [affectedCount] = await Experience.update(
                 request, {where: {id}}
             )

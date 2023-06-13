@@ -20,8 +20,8 @@ class EducationController {
     static async create(req: Request, resp: Response) {
         try {
             const request = req.body as IEducation
-            const {fileUrl} = resp.locals as TLocalsResponse
-            request.imageUrl = fileUrl
+            const {singleFileUrls} = resp.locals as TLocalsResponse
+            request.imageUrl = singleFileUrls[0]
 
             const response = await Education.asModel(request).save()
             resp.send(response)
@@ -37,8 +37,8 @@ class EducationController {
         try {
             const {id} = req.query as IReqQuery
             const request = req.body as IEducation
-            const {fileUrl} = resp.locals as TLocalsResponse
-            request.imageUrl = fileUrl
+            const {singleFileUrls} = resp.locals as TLocalsResponse
+            request.imageUrl = singleFileUrls[0]
 
             const [affectedCount] = await Education.update(
                 request, {where: {id}}

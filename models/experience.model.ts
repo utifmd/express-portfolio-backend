@@ -1,5 +1,5 @@
 import {
-    DataType, Column, IsUrl, Model, NotEmpty, NotNull, PrimaryKey, Table
+    DataType, Column, IsUrl, Model, NotEmpty, NotNull, PrimaryKey, Table, IsArray
 } from "sequelize-typescript";
 import {randomUUID} from "crypto";
 
@@ -17,7 +17,7 @@ export class Experience extends Model<Experience> implements IExperience {
     @Column({allowNull: false})
     description!: string;
 
-    @IsUrl
+    // @IsUrl
     @NotNull
     @Column({allowNull: false})
     iconUrl!: string;

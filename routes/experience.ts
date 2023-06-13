@@ -1,14 +1,11 @@
 import {Router} from "express"
 import {authorizer} from "../middelwares/authorizer";
 import controller from "../controllers/ExperienceController";
-/*
-* TODO
-*  1. test experiences
-*  2. create file model
-* */
+import {uploader} from "../middelwares/uploader";
+
 const router = Router()
-router.post("/", authorizer, controller.create)
+router.post("/", authorizer, uploader, controller.create)
 router.get("/", controller.paged)
-router.put("/", authorizer, controller.update)
+router.put("/", authorizer, uploader, controller.update)
 router.delete("/", authorizer, controller.delete)
 export default router

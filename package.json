@@ -5,9 +5,9 @@
   "scripts": {
     "build": "rimraf bin && npx tsc",
     "prestart": "npm run build",
-    "start": "node bin/server.js",
+    "start": "node bin/index.js",
     "preserve": "npm run build",
-    "serve": "concurrently \"npx tsc -w\" \"nodemon bin/server.js\" "
+    "serve": "concurrently \"npx tsc -w\" \"nodemon bin/index.js\" "
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

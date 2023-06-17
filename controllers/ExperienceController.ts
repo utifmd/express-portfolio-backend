@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {Experience} from "../models/experience.model";
+import {IMAGE_PLACEHOLDER_URL} from "../helpers";
 
 class ExperienceController {
     static async paged(req: Request, resp: Response) {
@@ -7,7 +8,7 @@ class ExperienceController {
             const query = req.query as IReqQuery
             const offset = (query.page || 0) * (query.size || 0)
             const response = await Experience.findAll({limit: query.size, offset})
-            resp.send(response)
+            resp.status(200).send(response)
 
         } catch (e) {
             const error = e as Error
@@ -23,7 +24,7 @@ class ExperienceController {
             request.iconUrl = singleFileUrls[0]
             request.imageUrls = multipleFileUrls
             const response = await Experience.asModel(request).save()
-            resp.send(response)
+            resp.status(200).send(response)
 
         } catch (e) {
             const error = e as Error
@@ -36,11 +37,24 @@ class ExperienceController {
     static async update(req: Request, resp: Response) {
         try {
             const {id} = req.query as IReqQuery
-            const {isNoFileSelected, singleFileUrls, multipleFileUrls} = resp.locals as TLocalsResponse
+            const {singleFileUrls, multipleFileUrls} = resp.locals as TLocalsResponse
             const request = req.body as IExperience
+            /*
+            * Assign dataType if formData value does not match
+            * */
+            if (!Array.isArray(request.imageUrls))
+                request.imageUrls = [request.imageUrls]
 
-            request.iconUrl = isNoFileSelected ? request.iconUrl : singleFileUrls[0]
-            request.imageUrls = isNoFileSelected ? request.imageUrls : multipleFileUrls
+            if (!Array.isArray(request.stack))
+                request.stack = [request.stack]
+            /*
+            * When uploader passing some urls
+            * */
+            if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0)
+                request.iconUrl = singleFileUrls[0]
+
+            if (typeof multipleFileUrls !== "undefined" && multipleFileUrls.length > 0)
+                request.imageUrls = [...request.imageUrls, ...multipleFileUrls]
 
             const [affectedCount] = await Experience.update(
                 request, {where: {id}}

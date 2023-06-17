@@ -53,7 +53,6 @@ type TDataResponse = {
 }
 type TLocalsResponse = {
     authId: string
-    isNoFileSelected: boolean
     singleFileUrls: string[]
     multipleFileUrls: string[]
     files: any[]

@@ -18,7 +18,7 @@ class EducationController {
                 const offset = (query.page || 0) * (query.size || 0);
                 const response = yield education_model_1.Education.findAll({ limit: query.size, offset });
                 // .findAndCountAll({limit: size, offset: page})
-                resp.send(response);
+                resp.status(200).send(response);
             }
             catch (e) {
                 const error = e;
@@ -35,7 +35,7 @@ class EducationController {
                 const { singleFileUrls } = resp.locals;
                 request.imageUrl = singleFileUrls[0];
                 const response = yield education_model_1.Education.asModel(request).save();
-                resp.send(response);
+                resp.status(200).send(response);
             }
             catch (e) {
                 console.log(e);
@@ -51,8 +51,10 @@ class EducationController {
             try {
                 const { id } = req.query;
                 const request = req.body;
-                const { isNoFileSelected, singleFileUrls } = resp.locals;
-                request.imageUrl = isNoFileSelected ? request.imageUrl : singleFileUrls[0];
+                const { singleFileUrls } = resp.locals;
+                if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0) {
+                    request.imageUrl = singleFileUrls[0];
+                }
                 const [affectedCount] = yield education_model_1.Education.update(request, { where: { id } });
                 if (affectedCount > 0) {
                     const response = education_model_1.Education.asModel(request);

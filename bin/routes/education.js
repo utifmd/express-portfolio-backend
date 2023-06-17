@@ -7,6 +7,10 @@ const express_1 = require("express");
 const EducationController_1 = __importDefault(require("../controllers/EducationController"));
 const authorizer_1 = require("../middelwares/authorizer");
 const uploader_1 = require("../middelwares/uploader");
+/*
+* TODO:
+*  1. add some validator middleware before uploader
+* */
 const router = (0, express_1.Router)();
 router.post("/", authorizer_1.authorizer, uploader_1.uploader, EducationController_1.default.create);
 router.get("/", EducationController_1.default.paged);

@@ -8,7 +8,7 @@ class EducationController {
             const offset = (query.page || 0) * (query.size || 0)
             const response = await Education.findAll({limit: query.size, offset})
             // .findAndCountAll({limit: size, offset: page})
-            resp.send(response)
+            resp.status(200).send(response)
 
         } catch (e) {
             const error = e as Error
@@ -24,7 +24,7 @@ class EducationController {
             request.imageUrl = singleFileUrls[0]
 
             const response = await Education.asModel(request).save()
-            resp.send(response)
+            resp.status(200).send(response)
 
         } catch (e) {
             console.log(e)
@@ -38,10 +38,11 @@ class EducationController {
         try {
             const {id} = req.query as IReqQuery
             const request = req.body as IEducation
-            const {isNoFileSelected, singleFileUrls} = resp.locals as TLocalsResponse
+            const {singleFileUrls} = resp.locals as TLocalsResponse
 
-            request.imageUrl = isNoFileSelected ? request.imageUrl : singleFileUrls[0]
-
+            if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0) {
+                request.imageUrl = singleFileUrls[0]
+            }
             const [affectedCount] = await Education.update(
                 request, {where: {id}}
             )

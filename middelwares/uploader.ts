@@ -21,12 +21,7 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
             return
         }
         const singleUrls: string[] = [], multipleUrls: string[] = []
-        const placeholderUrls = ["https://via.placeholder.com/150"];
-
-        resp.locals.isNoFileSelected = true
-        resp.locals.singleFileUrls = placeholderUrls
-        resp.locals.multipleFileUrls = placeholderUrls
-
+        /*const placeholderUrls = ["https://via.placeholder.com/150"]; resp.locals.singleFileUrls = placeholderUrls; resp.locals.multipleFileUrls = placeholderUrls*/
         if (typeof req.files === "undefined") {
             console.log("request files is undefined");
             next()
@@ -37,7 +32,6 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
             next()
             return
         }
-        resp.locals.isNoFileSelected = false
         if (FieldNames.SINGLE in req.files){
             for (const file of Object.values(req.files[FieldNames.SINGLE])) {
 

@@ -72,13 +72,13 @@ class FileController {
     static delete(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { id } = req.params;
+                const { id } = req.query;
                 const affectedCount = yield file_model_1.File.destroy({ where: { id } });
                 if (affectedCount > 0) {
                     resp.status(200).send({ message: `File with fileId ${id} has been deleted` });
                     return;
                 }
-                resp.status(500).send({ message: `Couldn\'t delete file with fileId ${id}` });
+                resp.status(403).send({ message: `Couldn\'t delete file with fileId ${id}` });
             }
             catch (e) {
                 const error = e;

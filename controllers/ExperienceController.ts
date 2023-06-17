@@ -4,8 +4,9 @@ import {Experience} from "../models/experience.model";
 class ExperienceController {
     static async paged(req: Request, resp: Response) {
         try {
-            const {page, size} = req.query as IReqQuery
-            const response = await Experience.findAll({limit: size, offset: page})
+            const query = req.query as IReqQuery
+            const offset = (query.page || 0) * (query.size || 0)
+            const response = await Experience.findAll({limit: query.size, offset})
             resp.send(response)
 
         } catch (e) {
@@ -37,20 +38,22 @@ class ExperienceController {
             const {id} = req.query as IReqQuery
             const {singleFileUrls, multipleFileUrls} = resp.locals as TLocalsResponse
             const request = req.body as IExperience
-            request.iconUrl = request.iconUrl.length > 0
+
+            request.iconUrl = typeof request.iconUrl !== "undefined"
                 ? request.iconUrl : singleFileUrls[0]
-            request.imageUrls = request.imageUrls.length > 0
+
+            request.imageUrls = typeof request.imageUrls !== "undefined"
                 ? request.imageUrls : multipleFileUrls
 
             const [affectedCount] = await Experience.update(
                 request, {where: {id}}
             )
             if (affectedCount > 0) {
-                resp.status(200).send(<TMessageResponse>{
-                    message: `Experience with experienceId ${id} has been updated`})
+                const response = Experience.asModel(request)
+                resp.status(200).send(response)
                 return
             }
-            resp.status(500).send(<TMessageResponse>{
+            resp.status(403).send(<TMessageResponse>{
                 message: `Couldn\'t update experience with experienceId ${id}`})
 
         } catch (e) {
@@ -69,7 +72,7 @@ class ExperienceController {
                     message: `Experience with experienceId ${id} has been deleted`})
                 return
             }
-            resp.status(500).send(<TMessageResponse>{
+            resp.status(403).send(<TMessageResponse>{
                 message: `Couldn\'t delete experience with experienceId ${id}`})
 
         } catch (e) {

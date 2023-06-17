@@ -29,7 +29,7 @@ let Education = exports.Education = Education_1 = class Education extends sequel
 };
 __decorate([
     sequelize_typescript_1.PrimaryKey,
-    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.UUID, defaultValue: (0, crypto_1.randomUUID)() }),
+    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.UUID }),
     __metadata("design:type", String)
 ], Education.prototype, "id", void 0);
 __decorate([

@@ -17,10 +17,10 @@ interface IEducation {
 }
 interface IExperience {
     id?: string,
-    type: string, // "front-end" | "back-end" | "mobile",
+    type: string, // "FRONT-END" | "BACK-END" | "MOBILE",
     title: string,
     description: string,
-    platform: string, // "android" | "ios" | "web",
+    platform: string, // "ANDROID" | "IOS" | "WEB",
     stack: string[],
     imageUrls: string[],
     iconUrl: string,

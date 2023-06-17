@@ -4,7 +4,7 @@ import {randomUUID} from "crypto";
 @Table({tableName: "educations"})
 export class Education extends Model<Education> implements IEducation {
     @PrimaryKey
-    @Column({type: DataType.UUID, defaultValue: randomUUID()})
+    @Column({type: DataType.UUID})
     id?: string
 
     @NotNull

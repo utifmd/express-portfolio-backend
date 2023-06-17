@@ -52,7 +52,7 @@ let Authentication = exports.Authentication = Authentication_1 = class Authentic
         };
         if (typeof payload.id === "undefined" || typeof payload.createdAt === "undefined")
             throw Error("authentication properties incompatible");
-        return (0, jsonwebtoken_1.sign)(payload, secretKey, { expiresIn: "10h" });
+        return (0, jsonwebtoken_1.sign)(payload, secretKey, { expiresIn: "3d" });
     }
     static verifyToken(token) {
         const secretKey = process.env.SECRET_KEY || "utifmd@gmail.com";

@@ -56,7 +56,7 @@ export class FileController {
     }
     static async delete(req: Request, resp: Response){
         try {
-            const {id} = req.params as TParamsRequest
+            const {id} = req.query as TParamsRequest
             const affectedCount = await File.destroy({where: {id}})
             if (affectedCount > 0) {
                 resp.status(200).send(
@@ -64,7 +64,7 @@ export class FileController {
                 )
                 return
             }
-            resp.status(500).send(
+            resp.status(403).send(
                 <TMessageResponse>{message: `Couldn\'t delete file with fileId ${id}`}
             )
         } catch (e) {

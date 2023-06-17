@@ -32,8 +32,8 @@ export class Experience extends Model<Experience> implements IExperience {
     @NotNull
     @Column({
         allowNull: false,
-        type: DataType.ENUM("android", "ios", "web"),
-        defaultValue: "web"
+        type: DataType.ENUM("ANDROID", "IOS", "WEB"),
+        defaultValue: "WEB"
     })
     platform!: string;
 
@@ -56,8 +56,8 @@ export class Experience extends Model<Experience> implements IExperience {
     @NotNull
     @Column({
         allowNull: false,
-        type: DataType.ENUM("front-end", "back-end", "mobile"),
-        defaultValue: "back-end"
+        type: DataType.ENUM("FRONT-END", "BACK-END", "MOBILE"),
+        defaultValue: "BACK-END"
     })
     type!: string;
 

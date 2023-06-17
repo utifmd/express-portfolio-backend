@@ -4,8 +4,9 @@ import {Education} from "../models/education.model"
 class EducationController {
     static async paged(req: Request, resp: Response) {
         try {
-            const {page, size} = req.query as IReqQuery
-            const response = await Education.findAll({limit: size, offset: page})
+            const query = req.query as IReqQuery
+            const offset = (query.page || 0) * (query.size || 0)
+            const response = await Education.findAll({limit: query.size, offset})
             // .findAndCountAll({limit: size, offset: page})
             resp.send(response)
 
@@ -26,6 +27,7 @@ class EducationController {
             resp.send(response)
 
         } catch (e) {
+            console.log(e)
             const error = e as Error
             resp.status(500).send(<TMessageResponse>{
                 message: error.message || JSON.stringify(error)
@@ -37,17 +39,19 @@ class EducationController {
             const {id} = req.query as IReqQuery
             const request = req.body as IEducation
             const {singleFileUrls} = resp.locals as TLocalsResponse
-            request.imageUrl = request.imageUrl.length > 0 ? request.imageUrl : singleFileUrls[0]
+
+            request.imageUrl = typeof request.imageUrl !== "undefined"
+                ? request.imageUrl : singleFileUrls[0]
 
             const [affectedCount] = await Education.update(
                 request, {where: {id}}
             )
             if (affectedCount > 0) {
-                resp.status(200).send(<TMessageResponse>{
-                    message: `Education with educationId ${id} has been updated`})
+                const response = Education.asModel(request)
+                resp.status(200).send(response)
                 return
             }
-            resp.status(500).send(
+            resp.status(401).send(
                 <TMessageResponse>{
                     message: `Couldn\'t update education with educationId ${id}`})
 
@@ -67,7 +71,7 @@ class EducationController {
                     message: `Education with educationId ${id} has been deleted`})
                 return
             }
-            resp.status(500).send(<TMessageResponse>{
+            resp.status(403).send(<TMessageResponse>{
                 message: `Couldn\'t delete education with educationId ${id}`})
 
         } catch (e) {

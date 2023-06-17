@@ -45,7 +45,7 @@ export class Authentication extends Model<Authentication> implements IAuthentica
         if (typeof payload.id === "undefined" || typeof payload.createdAt === "undefined")
             throw Error("authentication properties incompatible")
 
-        return sign(payload, secretKey, {expiresIn: "10h"})
+        return sign(payload, secretKey, {expiresIn: "3d"})
     }
 
     static verifyToken(token: string) {

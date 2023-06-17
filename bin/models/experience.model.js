@@ -63,8 +63,8 @@ __decorate([
     sequelize_typescript_1.NotNull,
     (0, sequelize_typescript_1.Column)({
         allowNull: false,
-        type: sequelize_typescript_1.DataType.ENUM("android", "ios", "web"),
-        defaultValue: "web"
+        type: sequelize_typescript_1.DataType.ENUM("ANDROID", "IOS", "WEB"),
+        defaultValue: "WEB"
     }),
     __metadata("design:type", String)
 ], Experience.prototype, "platform", void 0);
@@ -91,8 +91,8 @@ __decorate([
     sequelize_typescript_1.NotNull,
     (0, sequelize_typescript_1.Column)({
         allowNull: false,
-        type: sequelize_typescript_1.DataType.ENUM("front-end", "back-end", "mobile"),
-        defaultValue: "back-end"
+        type: sequelize_typescript_1.DataType.ENUM("FRONT-END", "BACK-END", "MOBILE"),
+        defaultValue: "BACK-END"
     }),
     __metadata("design:type", String)
 ], Experience.prototype, "type", void 0);

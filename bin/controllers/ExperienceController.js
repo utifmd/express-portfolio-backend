@@ -14,8 +14,9 @@ class ExperienceController {
     static paged(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { page, size } = req.query;
-                const response = yield experience_model_1.Experience.findAll({ limit: size, offset: page });
+                const query = req.query;
+                const offset = (query.page || 0) * (query.size || 0);
+                const response = yield experience_model_1.Experience.findAll({ limit: query.size, offset });
                 resp.send(response);
             }
             catch (e) {
@@ -51,18 +52,17 @@ class ExperienceController {
                 const { id } = req.query;
                 const { singleFileUrls, multipleFileUrls } = resp.locals;
                 const request = req.body;
-                request.iconUrl = request.iconUrl.length > 0
+                request.iconUrl = typeof request.iconUrl !== "undefined"
                     ? request.iconUrl : singleFileUrls[0];
-                request.imageUrls = request.imageUrls.length > 0
+                request.imageUrls = typeof request.imageUrls !== "undefined"
                     ? request.imageUrls : multipleFileUrls;
                 const [affectedCount] = yield experience_model_1.Experience.update(request, { where: { id } });
                 if (affectedCount > 0) {
-                    resp.status(200).send({
-                        message: `Experience with experienceId ${id} has been updated`
-                    });
+                    const response = experience_model_1.Experience.asModel(request);
+                    resp.status(200).send(response);
                     return;
                 }
-                resp.status(500).send({
+                resp.status(403).send({
                     message: `Couldn\'t update experience with experienceId ${id}`
                 });
             }
@@ -85,7 +85,7 @@ class ExperienceController {
                     });
                     return;
                 }
-                resp.status(500).send({
+                resp.status(403).send({
                     message: `Couldn\'t delete experience with experienceId ${id}`
                 });
             }

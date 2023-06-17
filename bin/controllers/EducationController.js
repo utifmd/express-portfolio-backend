@@ -14,8 +14,9 @@ class EducationController {
     static paged(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { page, size } = req.query;
-                const response = yield education_model_1.Education.findAll({ limit: size, offset: page });
+                const query = req.query;
+                const offset = (query.page || 0) * (query.size || 0);
+                const response = yield education_model_1.Education.findAll({ limit: query.size, offset });
                 // .findAndCountAll({limit: size, offset: page})
                 resp.send(response);
             }
@@ -37,6 +38,7 @@ class EducationController {
                 resp.send(response);
             }
             catch (e) {
+                console.log(e);
                 const error = e;
                 resp.status(500).send({
                     message: error.message || JSON.stringify(error)
@@ -50,15 +52,15 @@ class EducationController {
                 const { id } = req.query;
                 const request = req.body;
                 const { singleFileUrls } = resp.locals;
-                request.imageUrl = request.imageUrl.length > 0 ? request.imageUrl : singleFileUrls[0];
+                request.imageUrl = typeof request.imageUrl !== "undefined"
+                    ? request.imageUrl : singleFileUrls[0];
                 const [affectedCount] = yield education_model_1.Education.update(request, { where: { id } });
                 if (affectedCount > 0) {
-                    resp.status(200).send({
-                        message: `Education with educationId ${id} has been updated`
-                    });
+                    const response = education_model_1.Education.asModel(request);
+                    resp.status(200).send(response);
                     return;
                 }
-                resp.status(500).send({
+                resp.status(401).send({
                     message: `Couldn\'t update education with educationId ${id}`
                 });
             }
@@ -81,7 +83,7 @@ class EducationController {
                     });
                     return;
                 }
-                resp.status(500).send({
+                resp.status(403).send({
                     message: `Couldn\'t delete education with educationId ${id}`
                 });
             }

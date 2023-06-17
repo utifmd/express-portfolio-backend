@@ -35,21 +35,21 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
             return;
         }
         const singleUrls = [], multipleUrls = [];
+        const defaultUrls = ["https://via.placeholder.com/150"];
+        resp.locals.singleFileUrls = defaultUrls;
+        resp.locals.multipleFileUrls = defaultUrls;
         if (typeof req.files === "undefined") {
             console.log("no file is selected");
-            const urls = ["https://via.placeholder.com/150"];
-            resp.locals.singleFileUrls = urls;
-            resp.locals.multipleFileUrls = urls;
             next();
             return;
         }
         if (helpers_1.FileUploadFieldNames.SINGLE in req.files) {
-            console.log("request files identified");
             for (const file of Object.values(req.files[helpers_1.FileUploadFieldNames.SINGLE])) {
                 const response = yield file_model_1.File.asModel(file).save();
                 const url = req.protocol + "://" + req.get("host") + `/files/${response.id}`;
                 singleUrls.push(url);
             }
+            console.log("single uploaded: ", singleUrls);
             resp.locals.singleFileUrls = singleUrls;
         }
         if (helpers_1.FileUploadFieldNames.MULTIPLE in req.files) {
@@ -58,6 +58,7 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
                 const url = req.protocol + "://" + req.get("host") + `/files/${response.id}`;
                 multipleUrls.push(url);
             }
+            console.log("multiple uploaded: ", multipleUrls);
             resp.locals.multipleFileUrls = multipleUrls;
         }
         next();

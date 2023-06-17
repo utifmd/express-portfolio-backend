@@ -21,24 +21,24 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
             return
         }
         const singleUrls: string[] = [], multipleUrls: string[] = []
+        const defaultUrls = ["https://via.placeholder.com/150"];
+
+        resp.locals.singleFileUrls = defaultUrls;
+        resp.locals.multipleFileUrls = defaultUrls;
         if (typeof req.files === "undefined") {
             console.log("no file is selected");
-            const urls = ["https://via.placeholder.com/150"];
-
-            (resp.locals as TLocalsResponse).singleFileUrls = urls;
-            (resp.locals as TLocalsResponse).multipleFileUrls = urls;
             next()
             return
         }
         if (FieldNames.SINGLE in req.files){
-            console.log("request files identified")
             for (const file of Object.values(req.files[FieldNames.SINGLE])) {
 
                 const response = await File.asModel(file).save();
                 const url = req.protocol + "://" + req.get("host") + `/files/${response.id}`
                 singleUrls.push(url)
             }
-            (resp.locals as TLocalsResponse).singleFileUrls = singleUrls
+            console.log("single uploaded: ", singleUrls)
+            resp.locals.singleFileUrls = singleUrls
         }
         if (FieldNames.MULTIPLE in req.files){
             for (const file of Object.values(req.files[FieldNames.MULTIPLE])) {
@@ -47,7 +47,8 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
                 const url = req.protocol + "://" + req.get("host") + `/files/${response.id}`
                 multipleUrls.push(url)
             }
-            (resp.locals as TLocalsResponse).multipleFileUrls = multipleUrls
+            console.log("multiple uploaded: ", multipleUrls)
+            resp.locals.multipleFileUrls = multipleUrls
         }
         next()
     });

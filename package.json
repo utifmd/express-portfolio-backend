@@ -5,9 +5,9 @@
   "scripts": {
     "build": "rimraf bin && npx tsc",
     "prestart": "npm run build",
-    "start": "node index.ts",
+    "start": "node bin/index.js",
     "preserve": "npm run build",
-    "serve": "concurrently \"npx tsc -w\" \"nodemon index.ts\" ",
+    "serve": "concurrently \"npx tsc -w\" \"nodemon bin/index.js\" ",
     "ts.check": "tsc --project tsconfig.json",
     "add-build": "git add bin"
   },
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/morgan": "^1.9.4",

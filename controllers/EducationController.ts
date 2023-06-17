@@ -38,10 +38,9 @@ class EducationController {
         try {
             const {id} = req.query as IReqQuery
             const request = req.body as IEducation
-            const {singleFileUrls} = resp.locals as TLocalsResponse
+            const {isNoFileSelected, singleFileUrls} = resp.locals as TLocalsResponse
 
-            request.imageUrl = typeof request.imageUrl !== "undefined"
-                ? request.imageUrl : singleFileUrls[0]
+            request.imageUrl = isNoFileSelected ? request.imageUrl : singleFileUrls[0]
 
             const [affectedCount] = await Education.update(
                 request, {where: {id}}

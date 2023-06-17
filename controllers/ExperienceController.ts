@@ -36,14 +36,11 @@ class ExperienceController {
     static async update(req: Request, resp: Response) {
         try {
             const {id} = req.query as IReqQuery
-            const {singleFileUrls, multipleFileUrls} = resp.locals as TLocalsResponse
+            const {isNoFileSelected, singleFileUrls, multipleFileUrls} = resp.locals as TLocalsResponse
             const request = req.body as IExperience
 
-            request.iconUrl = typeof request.iconUrl !== "undefined"
-                ? request.iconUrl : singleFileUrls[0]
-
-            request.imageUrls = typeof request.imageUrls !== "undefined"
-                ? request.imageUrls : multipleFileUrls
+            request.iconUrl = isNoFileSelected ? request.iconUrl : singleFileUrls[0]
+            request.imageUrls = isNoFileSelected ? request.imageUrls : multipleFileUrls
 
             const [affectedCount] = await Experience.update(
                 request, {where: {id}}

@@ -35,14 +35,21 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
             return;
         }
         const singleUrls = [], multipleUrls = [];
-        const defaultUrls = ["https://via.placeholder.com/150"];
-        resp.locals.singleFileUrls = defaultUrls;
-        resp.locals.multipleFileUrls = defaultUrls;
+        const placeholderUrls = ["https://via.placeholder.com/150"];
+        resp.locals.isNoFileSelected = true;
+        resp.locals.singleFileUrls = placeholderUrls;
+        resp.locals.multipleFileUrls = placeholderUrls;
         if (typeof req.files === "undefined") {
+            console.log("request files is undefined");
+            next();
+            return;
+        }
+        if (!(helpers_1.FileUploadFieldNames.SINGLE in req.files || helpers_1.FileUploadFieldNames.MULTIPLE in req.files)) {
             console.log("no file is selected");
             next();
             return;
         }
+        resp.locals.isNoFileSelected = false;
         if (helpers_1.FileUploadFieldNames.SINGLE in req.files) {
             for (const file of Object.values(req.files[helpers_1.FileUploadFieldNames.SINGLE])) {
                 const response = yield file_model_1.File.asModel(file).save();

@@ -50,12 +50,10 @@ class ExperienceController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.query;
-                const { singleFileUrls, multipleFileUrls } = resp.locals;
+                const { isNoFileSelected, singleFileUrls, multipleFileUrls } = resp.locals;
                 const request = req.body;
-                request.iconUrl = typeof request.iconUrl !== "undefined"
-                    ? request.iconUrl : singleFileUrls[0];
-                request.imageUrls = typeof request.imageUrls !== "undefined"
-                    ? request.imageUrls : multipleFileUrls;
+                request.iconUrl = isNoFileSelected ? request.iconUrl : singleFileUrls[0];
+                request.imageUrls = isNoFileSelected ? request.imageUrls : multipleFileUrls;
                 const [affectedCount] = yield experience_model_1.Experience.update(request, { where: { id } });
                 if (affectedCount > 0) {
                     const response = experience_model_1.Experience.asModel(request);

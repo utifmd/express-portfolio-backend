@@ -51,9 +51,8 @@ class EducationController {
             try {
                 const { id } = req.query;
                 const request = req.body;
-                const { singleFileUrls } = resp.locals;
-                request.imageUrl = typeof request.imageUrl !== "undefined"
-                    ? request.imageUrl : singleFileUrls[0];
+                const { isNoFileSelected, singleFileUrls } = resp.locals;
+                request.imageUrl = isNoFileSelected ? request.imageUrl : singleFileUrls[0];
                 const [affectedCount] = yield education_model_1.Education.update(request, { where: { id } });
                 if (affectedCount > 0) {
                     const response = education_model_1.Education.asModel(request);

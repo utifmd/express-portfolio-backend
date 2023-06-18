@@ -43,7 +43,7 @@ __decorate([
 ], Experience.prototype, "demoUrl", void 0);
 __decorate([
     sequelize_typescript_1.NotNull,
-    (0, sequelize_typescript_1.Column)({ allowNull: false }),
+    (0, sequelize_typescript_1.Column)({ allowNull: false, type: sequelize_typescript_1.DataType.TEXT }),
     __metadata("design:type", String)
 ], Experience.prototype, "description", void 0);
 __decorate([

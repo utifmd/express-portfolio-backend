@@ -39,12 +39,12 @@ __decorate([
 ], Education.prototype, "title", void 0);
 __decorate([
     sequelize_typescript_1.NotNull,
-    (0, sequelize_typescript_1.Column)({ allowNull: false }),
+    (0, sequelize_typescript_1.Column)({ allowNull: false, type: sequelize_typescript_1.DataType.TEXT }),
     __metadata("design:type", String)
 ], Education.prototype, "desc", void 0);
 __decorate([
     sequelize_typescript_1.NotNull,
-    (0, sequelize_typescript_1.Column)({ allowNull: false }),
+    (0, sequelize_typescript_1.Column)({ allowNull: false, type: sequelize_typescript_1.DataType.TEXT }),
     __metadata("design:type", String)
 ], Education.prototype, "content", void 0);
 __decorate([

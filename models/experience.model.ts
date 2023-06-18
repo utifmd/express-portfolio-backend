@@ -14,7 +14,7 @@ export class Experience extends Model<Experience> implements IExperience {
     demoUrl?: string;
 
     @NotNull
-    @Column({allowNull: false})
+    @Column({allowNull: false, type: DataType.TEXT})
     description!: string;
 
     // @IsUrl

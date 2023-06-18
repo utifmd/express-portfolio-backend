@@ -12,11 +12,11 @@ export class Education extends Model<Education> implements IEducation {
     title!: string;
 
     @NotNull
-    @Column({allowNull: false})
+    @Column({allowNull: false, type: DataType.TEXT})
     desc!: string;
 
     @NotNull
-    @Column({allowNull: false})
+    @Column({allowNull: false, type: DataType.TEXT})
     content!: string;
 
     @IsUrl

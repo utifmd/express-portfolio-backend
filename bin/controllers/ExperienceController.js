@@ -34,6 +34,7 @@ class ExperienceController {
                 const { singleFileUrls, multipleFileUrls } = resp.locals;
                 request.iconUrl = singleFileUrls[0];
                 request.imageUrls = multipleFileUrls;
+                request.stack = JSON.parse(request.stack);
                 const response = yield experience_model_1.Experience.asModel(request).save();
                 resp.status(200).send(response);
             }
@@ -52,18 +53,11 @@ class ExperienceController {
                 const { id } = req.query;
                 const { singleFileUrls, multipleFileUrls } = resp.locals; // passed by middleware
                 const request = req.body;
-                if (!Array.isArray(request.stack))
-                    request.stack = Array.from(request.stack);
-                if (typeof request.imageUrls !== "undefined") {
-                    if (Array.isArray(request.imageUrls))
-                        return;
-                    request.imageUrls = Array.from(request.imageUrls);
-                    if (typeof multipleFileUrls === "undefined" || multipleFileUrls.length <= 0)
-                        return;
-                    request.imageUrls = [...request.imageUrls, ...multipleFileUrls];
-                }
+                if (typeof multipleFileUrls !== "undefined" && multipleFileUrls.length > 0)
+                    request.imageUrls = [...JSON.parse(request.imageUrls), ...multipleFileUrls];
                 if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0)
                     request.iconUrl = singleFileUrls[0];
+                request.stack = JSON.parse(request.stack);
                 const [affectedCount] = yield experience_model_1.Experience.update(request, { where: { id } });
                 if (affectedCount > 0) {
                     const response = experience_model_1.Experience.asModel(request);

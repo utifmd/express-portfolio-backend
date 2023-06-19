@@ -53,10 +53,7 @@ __decorate([
 ], Experience.prototype, "iconUrl", void 0);
 __decorate([
     sequelize_typescript_1.NotEmpty,
-    sequelize_typescript_1.NotNull,
-    (0, sequelize_typescript_1.Column)({
-        allowNull: false, type: sequelize_typescript_1.DataType.ARRAY(sequelize_typescript_1.DataType.STRING)
-    }),
+    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.ARRAY(sequelize_typescript_1.DataType.STRING) }),
     __metadata("design:type", Array)
 ], Experience.prototype, "imageUrls", void 0);
 __decorate([

@@ -23,11 +23,8 @@ export class Experience extends Model<Experience> implements IExperience {
     iconUrl!: string;
 
     @NotEmpty
-    @NotNull
-    @Column({
-        allowNull: false, type: DataType.ARRAY(DataType.STRING)
-    })
-    imageUrls!: string[];
+    @Column({type: DataType.ARRAY(DataType.STRING)})
+    imageUrls?: string[];
 
     @NotNull
     @Column({

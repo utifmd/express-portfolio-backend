@@ -50,22 +50,20 @@ class ExperienceController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.query;
-                const { singleFileUrls, multipleFileUrls } = resp.locals;
+                const { singleFileUrls, multipleFileUrls } = resp.locals; // passed by middleware
                 const request = req.body;
-                /*
-                * Assign dataType if formData value does not match
-                * */
-                if (!Array.isArray(request.imageUrls))
-                    request.imageUrls = [request.imageUrls];
                 if (!Array.isArray(request.stack))
-                    request.stack = [request.stack];
-                /*
-                * When uploader passing some urls
-                * */
+                    request.stack = Array.from(request.stack);
+                if (typeof request.imageUrls !== "undefined") {
+                    if (Array.isArray(request.imageUrls))
+                        return;
+                    request.imageUrls = Array.from(request.imageUrls);
+                    if (typeof multipleFileUrls === "undefined" || multipleFileUrls.length <= 0)
+                        return;
+                    request.imageUrls = [...request.imageUrls, ...multipleFileUrls];
+                }
                 if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0)
                     request.iconUrl = singleFileUrls[0];
-                if (typeof multipleFileUrls !== "undefined" && multipleFileUrls.length > 0)
-                    request.imageUrls = [...request.imageUrls, ...multipleFileUrls];
                 const [affectedCount] = yield experience_model_1.Experience.update(request, { where: { id } });
                 if (affectedCount > 0) {
                     const response = experience_model_1.Experience.asModel(request);

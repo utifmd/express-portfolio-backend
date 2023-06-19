@@ -27,7 +27,7 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
             next()
             return
         }
-        if (!(FieldNames.SINGLE in req.files || FieldNames.MULTIPLE in req.files)) {
+        if (!(FieldNames.SINGLE in req.files) && !(FieldNames.MULTIPLE in req.files)) {
             console.log("no file is selected");
             next()
             return

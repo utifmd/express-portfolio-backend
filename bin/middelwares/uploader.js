@@ -41,7 +41,7 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
             next();
             return;
         }
-        if (!(helpers_1.FileUploadFieldNames.SINGLE in req.files || helpers_1.FileUploadFieldNames.MULTIPLE in req.files)) {
+        if (!(helpers_1.FileUploadFieldNames.SINGLE in req.files) && !(helpers_1.FileUploadFieldNames.MULTIPLE in req.files)) {
             console.log("no file is selected");
             next();
             return;

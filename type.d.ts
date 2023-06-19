@@ -22,7 +22,7 @@ interface IExperience {
     description: string,
     platform: string, // "ANDROID" | "IOS" | "WEB",
     stack: string[],
-    imageUrls: string[],
+    imageUrls?: string[],
     iconUrl: string,
     releasedUrl: string,
     demoUrl?: string,
@@ -54,7 +54,7 @@ type TDataResponse = {
 type TLocalsResponse = {
     authId: string
     singleFileUrls: string[]
-    multipleFileUrls: string[]
+    multipleFileUrls?: string[]
     files: any[]
 }
 interface IEnvVariable {

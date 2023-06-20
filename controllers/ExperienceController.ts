@@ -42,13 +42,14 @@ class ExperienceController {
             const {singleFileUrls, multipleFileUrls} = resp.locals as TLocalsResponse // passed by middleware
             const request = req.body as IExperience
 
+            request.imageUrls = JSON.parse(request.imageUrls)
+            request.stack = JSON.parse(request.stack)
+
             if (typeof multipleFileUrls !== "undefined" && multipleFileUrls.length > 0)
                 request.imageUrls = [...JSON.parse(request.imageUrls), ...multipleFileUrls]
 
             if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0)
                 request.iconUrl = singleFileUrls[0]
-
-            request.stack = JSON.parse(request.stack)
 
             const [affectedCount] = await Experience.update(
                 request, {where: {id}}

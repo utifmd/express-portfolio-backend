@@ -20,7 +20,7 @@ export const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     dialect: DB_DIALECT,
     dialectModule: postgres,
     pool: {
-        max: 5,
+        max: 3,
         min: 0,
         acquire: 30000,
         idle: 10000

@@ -56,9 +56,9 @@ class ExperienceController {
                 request.imageUrls = JSON.parse(request.imageUrls);
                 request.stack = JSON.parse(request.stack);
                 if (typeof multipleFileUrls !== "undefined" && multipleFileUrls.length > 0)
-                    request.imageUrls = [...JSON.parse(request.imageUrls), ...multipleFileUrls];
+                    request.imageUrls = [...request.imageUrls, ...multipleFileUrls];
                 if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0)
-                    request.iconUrl = singleFileUrls[0];
+                    request.iconUrl = singleFileUrls[0]; // unnecessary
                 const [affectedCount] = yield experience_model_1.Experience.update(request, { where: { id } });
                 if (affectedCount > 0) {
                     const response = experience_model_1.Experience.asModel(request);

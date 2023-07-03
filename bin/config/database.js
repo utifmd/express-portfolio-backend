@@ -17,9 +17,9 @@ exports.sequelize = new sequelize_typescript_1.Sequelize(DB_NAME, DB_USER, DB_PA
     dialect: DB_DIALECT,
     dialectModule: pg_1.default,
     pool: {
-        max: 3,
+        max: 2,
         min: 0,
-        acquire: 30000,
+        // acquire: 30000,
         idle: 10000
     }
 });

@@ -2,12 +2,36 @@ import {NextFunction, Request, RequestHandler, Response} from "express";
 import multer, {Field} from "multer";
 import {File} from "../models/file.model";
 import {FileUploadFieldNames as FieldNames} from "../helpers"
+import {randomUUID} from "crypto";
 export const uploader = async (req: Request, resp: Response, next: NextFunction) => {
     const fields: Field[] = [
         {name: FieldNames.SINGLE, maxCount: 1},
         {name: FieldNames.MULTIPLE, maxCount: 20}
     ]
-    const upload: RequestHandler = multer().fields(fields) //array("")
+    const filePath: string = `${req.protocol}://${req.get("host")}/public/files/`
+    const options: multer.Options = {
+        fileFilter(
+            req: Request,
+            file: Express.Multer.File,
+            callback: multer.FileFilterCallback) {
+            callback(null, file.mimetype.split("/")[0] === "image")
+        },
+        storage: multer.diskStorage({
+            destination: (
+                mReq,
+                file,
+                callback) => {
+                callback(null, "public")
+            },
+            filename(
+                mReq: Request,
+                file: Express.Multer.File,
+                callback: (error: (Error | null), mFilename: string) => void) {
+                callback(null, randomUUID() + file.filename.split(".")[1])
+            }
+        })
+    }
+    const upload: RequestHandler = multer(options).fields(fields)
     return upload(req, resp, async (e) => {
         if (e instanceof multer.MulterError){
             console.log("multer error ", e.message)
@@ -21,7 +45,6 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
             return
         }
         const singleUrls: string[] = [], multipleUrls: string[] = []
-        /*const placeholderUrls = ["https://via.placeholder.com/150"]; resp.locals.singleFileUrls = placeholderUrls; resp.locals.multipleFileUrls = placeholderUrls*/
         if (typeof req.files === "undefined") {
             console.log("request files is undefined");
             next()
@@ -34,9 +57,7 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
         }
         if (FieldNames.SINGLE in req.files){
             for (const file of Object.values(req.files[FieldNames.SINGLE])) {
-
-                const response = await File.asModel(file).save();
-                const url = req.protocol + "://" + req.get("host") + `/files/${response.id}`
+                const url = `${filePath}/${file.originalname}`
                 singleUrls.push(url)
             }
             console.log("single uploaded: ", singleUrls)
@@ -44,9 +65,7 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
         }
         if (FieldNames.MULTIPLE in req.files){
             for (const file of Object.values(req.files[FieldNames.MULTIPLE])) {
-
-                const response = await File.asModel(file).save();
-                const url = req.protocol + "://" + req.get("host") + `/files/${response.id}`
+                const url = `${filePath}/${file.originalname}`
                 multipleUrls.push(url)
             }
             console.log("multiple uploaded: ", multipleUrls)

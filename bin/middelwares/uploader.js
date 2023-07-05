@@ -14,14 +14,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploader = void 0;
 const multer_1 = __importDefault(require("multer"));
-const file_model_1 = require("../models/file.model");
 const helpers_1 = require("../helpers");
+const crypto_1 = require("crypto");
 const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = [
         { name: helpers_1.FileUploadFieldNames.SINGLE, maxCount: 1 },
         { name: helpers_1.FileUploadFieldNames.MULTIPLE, maxCount: 20 }
     ];
-    const upload = (0, multer_1.default)().fields(fields); //array("")
+    const filePath = `${req.protocol}://${req.get("host")}/public/files/`;
+    const options = {
+        fileFilter(req, file, callback) {
+            callback(null, file.mimetype.split("/")[0] === "image");
+        },
+        storage: multer_1.default.diskStorage({
+            destination: (mReq, file, callback) => {
+                callback(null, "public");
+            },
+            filename(mReq, file, callback) {
+                callback(null, (0, crypto_1.randomUUID)() + file.filename.split(".")[1]);
+            }
+        })
+    };
+    const upload = (0, multer_1.default)(options).fields(fields);
     return upload(req, resp, (e) => __awaiter(void 0, void 0, void 0, function* () {
         if (e instanceof multer_1.default.MulterError) {
             console.log("multer error ", e.message);
@@ -35,7 +49,6 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
             return;
         }
         const singleUrls = [], multipleUrls = [];
-        /*const placeholderUrls = ["https://via.placeholder.com/150"]; resp.locals.singleFileUrls = placeholderUrls; resp.locals.multipleFileUrls = placeholderUrls*/
         if (typeof req.files === "undefined") {
             console.log("request files is undefined");
             next();
@@ -48,8 +61,7 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
         }
         if (helpers_1.FileUploadFieldNames.SINGLE in req.files) {
             for (const file of Object.values(req.files[helpers_1.FileUploadFieldNames.SINGLE])) {
-                const response = yield file_model_1.File.asModel(file).save();
-                const url = req.protocol + "://" + req.get("host") + `/files/${response.id}`;
+                const url = `${filePath}/${file.originalname}`;
                 singleUrls.push(url);
             }
             console.log("single uploaded: ", singleUrls);
@@ -57,8 +69,7 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
         }
         if (helpers_1.FileUploadFieldNames.MULTIPLE in req.files) {
             for (const file of Object.values(req.files[helpers_1.FileUploadFieldNames.MULTIPLE])) {
-                const response = yield file_model_1.File.asModel(file).save();
-                const url = req.protocol + "://" + req.get("host") + `/files/${response.id}`;
+                const url = `${filePath}/${file.originalname}`;
                 multipleUrls.push(url);
             }
             console.log("multiple uploaded: ", multipleUrls);

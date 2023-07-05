@@ -9,7 +9,8 @@ const authorizer_1 = require("../middelwares/authorizer");
 const uploader_1 = require("../middelwares/uploader");
 /*
 * TODO:
-*  1. add some validator middleware before uploader
+*  1. test deleter middleware
+*  2. build profile entity; - update, - create(seed)
 * */
 const router = (0, express_1.Router)();
 router.post("/", authorizer_1.authorizer, uploader_1.uploader, EducationController_1.default.create);

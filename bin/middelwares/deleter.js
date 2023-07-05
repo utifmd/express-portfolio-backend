@@ -14,9 +14,9 @@ const helpers_1 = require("../helpers");
 const deleter = (req, resp, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const destroy = (url) => __awaiter(void 0, void 0, void 0, function* () {
-            const path = (0, helpers_1.getPathName)(url);
+            const path = `${helpers_1.FILE_UPLOAD_DESTINATION}/${url.split("/").pop()}`;
             yield (0, promises_1.unlink)(path);
-            console.log(`file ${path} delete successfully`);
+            console.log(`${path} delete successfully`);
         });
         for (const value of Object.values(req.body)) {
             if (typeof value === "string") {
@@ -34,7 +34,7 @@ const deleter = (req, resp, next) => __awaiter(void 0, void 0, void 0, function*
         }
     }
     catch (e) {
-        console.log(e.message); // resp.status(400).send(<TMessageResponse>{message: (e as Error).message})
+        console.log(e.message);
     }
     next();
 });

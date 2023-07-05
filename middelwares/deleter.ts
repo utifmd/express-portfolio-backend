@@ -1,18 +1,16 @@
 import {Request, Response, NextFunction} from "express"
 import {unlink} from "node:fs/promises"
-import {getPathName} from "../helpers";
+import {FILE_UPLOAD_DESTINATION} from "../helpers";
 const deleter = async (req: Request, resp: Response, next: NextFunction) => {
     try {
         const destroy = async (url: string) => {
-            const path = getPathName(url)
+            const path = `${FILE_UPLOAD_DESTINATION}/${url.split("/").pop()}`
             await unlink(path)
-            console.log(`file ${path} delete successfully`)
+            console.log(`${path} delete successfully`)
         }
         for (const value of Object.values(req.body)) {
             if (typeof value === "string") {
-                try {
-                    await destroy(value)
-                } catch (e) {
+                try { await destroy(value) } catch (e) {
                     continue
                 }
             }
@@ -20,7 +18,7 @@ const deleter = async (req: Request, resp: Response, next: NextFunction) => {
             for (const i in value) await destroy(value[i])
         }
     } catch (e) {
-        console.log((e as Error).message) // resp.status(400).send(<TMessageResponse>{message: (e as Error).message})
+        console.log((e as Error).message)
     }
     next()
 }

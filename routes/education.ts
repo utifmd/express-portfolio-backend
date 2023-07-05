@@ -4,7 +4,8 @@ import {authorizer} from "../middelwares/authorizer"
 import {uploader} from "../middelwares/uploader";
 /*
 * TODO:
-*  1. add some validator middleware before uploader
+*  1. test deleter middleware
+*  2. build profile entity; - update, - create(seed)
 * */
 const router = Router()
 router.post("/", authorizer, uploader, controller.create)

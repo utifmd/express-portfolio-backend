@@ -1,14 +1,14 @@
 import {NextFunction, Request, RequestHandler, Response} from "express";
 import multer, {Field} from "multer";
 import {File} from "../models/file.model";
-import {FileUploadFieldNames as FieldNames} from "../helpers"
+import {FILE_UPLOAD_DESTINATION, FileUploadFieldNames as FieldNames} from "../helpers"
 import {randomUUID} from "crypto";
 export const uploader = async (req: Request, resp: Response, next: NextFunction) => {
     const fields: Field[] = [
         {name: FieldNames.SINGLE, maxCount: 1},
         {name: FieldNames.MULTIPLE, maxCount: 20}
     ]
-    const filePath: string = `${req.protocol}://${req.get("host")}/public/files/`
+    const uploadPath: string = `${req.protocol}://${req.get("host")}`
     const options: multer.Options = {
         fileFilter(
             req: Request,
@@ -21,13 +21,14 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
                 mReq,
                 file,
                 callback) => {
-                callback(null, "public")
+                callback(null, FILE_UPLOAD_DESTINATION)
             },
             filename(
                 mReq: Request,
                 file: Express.Multer.File,
-                callback: (error: (Error | null), mFilename: string) => void) {
-                callback(null, randomUUID() + file.filename.split(".")[1])
+                callback: (error: (Error | null), filename: string) => void) {
+                const filename = `${randomUUID()}.${file.originalname.split(".").pop()}`
+                callback(null, filename)
             }
         })
     }
@@ -57,7 +58,7 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
         }
         if (FieldNames.SINGLE in req.files){
             for (const file of Object.values(req.files[FieldNames.SINGLE])) {
-                const url = `${filePath}/${file.originalname}`
+                const url = `${uploadPath}${file.path.split("public")[1]}`
                 singleUrls.push(url)
             }
             console.log("single uploaded: ", singleUrls)
@@ -65,7 +66,7 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
         }
         if (FieldNames.MULTIPLE in req.files){
             for (const file of Object.values(req.files[FieldNames.MULTIPLE])) {
-                const url = `${filePath}/${file.originalname}`
+                const url = `${uploadPath}${file.path.split("public")[1]}`
                 multipleUrls.push(url)
             }
             console.log("multiple uploaded: ", multipleUrls)

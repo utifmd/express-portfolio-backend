@@ -3,22 +3,23 @@ import educationRouter from "./education"
 import experienceRouter from "./experience"
 import authenticationRouter from "./authentication"
 import fileRouter from "./file"
-import deleter from "../middelwares/deleter";
+import imageRouter from "./imageRouter";
 
-const router = express.Router();
-/* GET home page. */
+const router = express.Router()
 router.get('/', function(_: Request, res: Response) {
-  // res.render('index', { title: 'Express' });
   res.send("Portfolio backend with expressjs and typescript")
 });
-router.delete("/test", deleter)
 router.use("/authentication", authenticationRouter)
 router.use("/educations", educationRouter)
 router.use("/experiences", experienceRouter)
 router.use("/files", fileRouter)
-router.all("*", (req: Request, resp: Response) => {
+router.use("/images", imageRouter)
+
+const apiRouter = express.Router()
+apiRouter.use("/api", router)
+apiRouter.all("*", (req: Request, resp: Response) => {
   resp.status(404).send(<TMessageResponse>{
-    message: "Not found"
+    message: "Page not found"
   })
 })
-export default router;
+export default apiRouter;

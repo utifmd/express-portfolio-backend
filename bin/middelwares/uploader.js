@@ -21,17 +21,18 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
         { name: helpers_1.FileUploadFieldNames.SINGLE, maxCount: 1 },
         { name: helpers_1.FileUploadFieldNames.MULTIPLE, maxCount: 20 }
     ];
-    const filePath = `${req.protocol}://${req.get("host")}/public/files/`;
+    const uploadPath = `${req.protocol}://${req.get("host")}`;
     const options = {
         fileFilter(req, file, callback) {
             callback(null, file.mimetype.split("/")[0] === "image");
         },
         storage: multer_1.default.diskStorage({
             destination: (mReq, file, callback) => {
-                callback(null, "public");
+                callback(null, helpers_1.FILE_UPLOAD_DESTINATION);
             },
             filename(mReq, file, callback) {
-                callback(null, (0, crypto_1.randomUUID)() + file.filename.split(".")[1]);
+                const filename = `${(0, crypto_1.randomUUID)()}.${file.originalname.split(".").pop()}`;
+                callback(null, filename);
             }
         })
     };
@@ -61,7 +62,7 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
         }
         if (helpers_1.FileUploadFieldNames.SINGLE in req.files) {
             for (const file of Object.values(req.files[helpers_1.FileUploadFieldNames.SINGLE])) {
-                const url = `${filePath}/${file.originalname}`;
+                const url = `${uploadPath}${file.path.split("public")[1]}`;
                 singleUrls.push(url);
             }
             console.log("single uploaded: ", singleUrls);
@@ -69,7 +70,7 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
         }
         if (helpers_1.FileUploadFieldNames.MULTIPLE in req.files) {
             for (const file of Object.values(req.files[helpers_1.FileUploadFieldNames.MULTIPLE])) {
-                const url = `${filePath}/${file.originalname}`;
+                const url = `${uploadPath}${file.path.split("public")[1]}`;
                 multipleUrls.push(url);
             }
             console.log("multiple uploaded: ", multipleUrls);

@@ -38,7 +38,6 @@ class EducationController {
                 resp.status(200).send(response);
             }
             catch (e) {
-                console.log(e);
                 const error = e;
                 resp.status(500).send({
                     message: error.message || JSON.stringify(error)

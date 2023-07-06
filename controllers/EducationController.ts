@@ -27,7 +27,6 @@ class EducationController {
             resp.status(200).send(response)
 
         } catch (e) {
-            console.log(e)
             const error = e as Error
             resp.status(500).send(<TMessageResponse>{
                 message: error.message || JSON.stringify(error)

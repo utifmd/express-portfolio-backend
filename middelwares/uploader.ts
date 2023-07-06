@@ -1,14 +1,13 @@
 import {NextFunction, Request, RequestHandler, Response} from "express";
 import multer, {Field} from "multer";
 import {File} from "../models/file.model";
-import {FILE_UPLOAD_DESTINATION, FileUploadFieldNames as FieldNames} from "../helpers"
+import {FILE_UPLOAD_DESTINATION, FileUploadFieldNames as FieldNames, PUBLIC_FILE_UPLOAD_DESTINATION} from "../helpers"
 import {randomUUID} from "crypto";
 export const uploader = async (req: Request, resp: Response, next: NextFunction) => {
     const fields: Field[] = [
         {name: FieldNames.SINGLE, maxCount: 1},
         {name: FieldNames.MULTIPLE, maxCount: 20}
     ]
-    const uploadPath: string = `${req.protocol}://${req.get("host")}`
     const options: multer.Options = {
         fileFilter(
             req: Request,
@@ -56,21 +55,22 @@ export const uploader = async (req: Request, resp: Response, next: NextFunction)
             next()
             return
         }
+        const domainName: string = `${req.protocol}://${req.get("host")}`
         if (FieldNames.SINGLE in req.files){
             for (const file of Object.values(req.files[FieldNames.SINGLE])) {
-                const url = `${uploadPath}${file.path.split("public")[1]}`
+                const url = `${domainName}${file.path.split(PUBLIC_FILE_UPLOAD_DESTINATION)[1]}`
                 singleUrls.push(url)
             }
-            console.log("single uploaded: ", singleUrls)
-            resp.locals.singleFileUrls = singleUrls
+            console.log("single uploaded: ", singleUrls);
+            (resp.locals as TLocalsResponse).singleFileUrls = singleUrls;
         }
         if (FieldNames.MULTIPLE in req.files){
             for (const file of Object.values(req.files[FieldNames.MULTIPLE])) {
-                const url = `${uploadPath}${file.path.split("public")[1]}`
+                const url = `${domainName}${file.path.split(PUBLIC_FILE_UPLOAD_DESTINATION)[1]}`
                 multipleUrls.push(url)
             }
-            console.log("multiple uploaded: ", multipleUrls)
-            resp.locals.multipleFileUrls = multipleUrls
+            console.log("multiple uploaded: ", multipleUrls);
+            (resp.locals as TLocalsResponse).multipleFileUrls = multipleUrls;
         }
         next()
     });

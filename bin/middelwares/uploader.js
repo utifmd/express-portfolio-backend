@@ -21,7 +21,6 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
         { name: helpers_1.FileUploadFieldNames.SINGLE, maxCount: 1 },
         { name: helpers_1.FileUploadFieldNames.MULTIPLE, maxCount: 20 }
     ];
-    const uploadPath = `${req.protocol}://${req.get("host")}`;
     const options = {
         fileFilter(req, file, callback) {
             callback(null, file.mimetype.split("/")[0] === "image");
@@ -60,9 +59,10 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
             next();
             return;
         }
+        const domainName = `${req.protocol}://${req.get("host")}`;
         if (helpers_1.FileUploadFieldNames.SINGLE in req.files) {
             for (const file of Object.values(req.files[helpers_1.FileUploadFieldNames.SINGLE])) {
-                const url = `${uploadPath}${file.path.split("public")[1]}`;
+                const url = `${domainName}${file.path.split(helpers_1.PUBLIC_FILE_UPLOAD_DESTINATION)[1]}`;
                 singleUrls.push(url);
             }
             console.log("single uploaded: ", singleUrls);
@@ -70,7 +70,7 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
         }
         if (helpers_1.FileUploadFieldNames.MULTIPLE in req.files) {
             for (const file of Object.values(req.files[helpers_1.FileUploadFieldNames.MULTIPLE])) {
-                const url = `${uploadPath}${file.path.split("public")[1]}`;
+                const url = `${domainName}${file.path.split(helpers_1.PUBLIC_FILE_UPLOAD_DESTINATION)[1]}`;
                 multipleUrls.push(url);
             }
             console.log("multiple uploaded: ", multipleUrls);

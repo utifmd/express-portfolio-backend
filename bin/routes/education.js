@@ -7,15 +7,15 @@ const express_1 = require("express");
 const EducationController_1 = __importDefault(require("../controllers/EducationController"));
 const authorizer_1 = require("../middelwares/authorizer");
 const uploader_1 = require("../middelwares/uploader");
+const deleter_1 = __importDefault(require("../middelwares/deleter"));
 /*
 * TODO:
-*  1. test deleter middleware
-*  2. build profile entity; - update, - create(seed)
+*  1. build profile entity; - update, - create(seed)
 * */
 const router = (0, express_1.Router)();
 router.post("/", authorizer_1.authorizer, uploader_1.uploader, EducationController_1.default.create);
 router.get("/", EducationController_1.default.paged);
 router.put("/", authorizer_1.authorizer, uploader_1.uploader, EducationController_1.default.update);
-router.delete("/", authorizer_1.authorizer, EducationController_1.default.delete);
+router.delete("/", authorizer_1.authorizer, deleter_1.default, EducationController_1.default.delete);
 exports.default = router;
 //# sourceMappingURL=education.js.map

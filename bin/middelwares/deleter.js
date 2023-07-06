@@ -12,13 +12,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const promises_1 = require("node:fs/promises");
 const helpers_1 = require("../helpers");
 const deleter = (req, resp, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const values = Object.values(req.body);
+    if (!values.length) {
+        next();
+        return;
+    }
     try {
+        const deletedPaths = [];
         const destroy = (url) => __awaiter(void 0, void 0, void 0, function* () {
             const path = `${helpers_1.FILE_UPLOAD_DESTINATION}/${url.split("/").pop()}`;
             yield (0, promises_1.unlink)(path);
+            deletedPaths.push(path);
             console.log(`${path} delete successfully`);
         });
-        for (const value of Object.values(req.body)) {
+        for (const value of values) {
             if (typeof value === "string") {
                 try {
                     yield destroy(value);
@@ -32,6 +39,7 @@ const deleter = (req, resp, next) => __awaiter(void 0, void 0, void 0, function*
             for (const i in value)
                 yield destroy(value[i]);
         }
+        resp.locals.multipleFileUrls = deletedPaths;
     }
     catch (e) {
         console.log(e.message);

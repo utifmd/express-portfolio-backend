@@ -12,6 +12,13 @@ interface IProfileLinks {
     createdAt?: any,
     updatedAt?: any
 }
+interface IProfileData {
+    id?: string,
+    title: string,
+    description: string,
+    profileId: string,
+    type: string
+}
 interface IProfile {
     id?: string,
     fullName: string,
@@ -20,7 +27,8 @@ interface IProfile {
     bio: string,
     role: string,
     jobTitle: string,
-    links: any,
+    links?: any,
+    data?: any,
     createdAt?: string,
     updatedAt?: string
 }

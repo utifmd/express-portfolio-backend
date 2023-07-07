@@ -11,6 +11,8 @@ const authentication_model_1 = require("../models/authentication.model");
 const experience_model_1 = require("../models/experience.model");
 const file_model_1 = require("../models/file.model");
 const profile_model_1 = require("../models/profile.model");
+const profileData_model_1 = require("../models/profileData.model");
+const profileLink_model_1 = require("../models/profileLink.model");
 const { DB_HOST, DB_PASS, DB_USER, DB_NAME, DB_PORT, DB_DIALECT } = process.env;
 exports.sequelize = new sequelize_typescript_1.Sequelize(DB_NAME, DB_USER, DB_PASS, {
     host: DB_HOST,
@@ -25,6 +27,6 @@ exports.sequelize = new sequelize_typescript_1.Sequelize(DB_NAME, DB_USER, DB_PA
     }
 });
 exports.sequelize.addModels([
-    authentication_model_1.Authentication, education_model_1.Education, experience_model_1.Experience, file_model_1.File, profile_model_1.Link, profile_model_1.Profile
+    authentication_model_1.Authentication, education_model_1.Education, experience_model_1.Experience, file_model_1.File, profileLink_model_1.ProfileLink, profileData_model_1.ProfileData, profile_model_1.Profile
 ]);
 //# sourceMappingURL=database.js.map

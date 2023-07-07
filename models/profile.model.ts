@@ -1,62 +1,7 @@
-import {DataType, Column, Model, Table, PrimaryKey, HasOne, NotNull, ForeignKey} from "sequelize-typescript";
+import {DataType, Column, Model, Table, PrimaryKey, HasOne, NotNull, HasMany} from "sequelize-typescript";
 import {randomUUID} from "crypto";
-@Table({tableName: "links"})
-export class Link extends Model<Link> implements IProfileLinks {
-    @PrimaryKey
-    @Column({type: DataType.UUID})
-    id?: string
-
-    @NotNull
-    @Column({type: DataType.STRING, allowNull: false})
-    email!: string
-
-    @NotNull
-    @Column({type: DataType.STRING, allowNull: false})
-    github!: string
-
-    @NotNull
-    @Column({type: DataType.STRING, allowNull: false})
-    instagram!: string
-
-    @NotNull
-    @Column({type: DataType.STRING, allowNull: false})
-    linkedin!: string
-
-    @NotNull
-    @Column({type: DataType.STRING, allowNull: false})
-    medium!: string
-
-    @NotNull
-    @Column({type: DataType.STRING, allowNull: false})
-    resume!: string
-
-    @NotNull
-    @Column({type: DataType.STRING, allowNull: false})
-    stackOverflow!: string
-
-    @NotNull
-    @Column({type: DataType.STRING, allowNull: false})
-    twitter!: string
-
-    @ForeignKey(() => Profile)
-    @Column({type: DataType.UUID, allowNull: false})
-    profileId!: string;
-
-    static asModel(request: IProfileLinks) {
-        const model = new Link()
-        model.id = randomUUID()
-        model.email = request.email
-        model.github = request.github
-        model.medium = request.medium
-        model.resume = request.resume
-        model.instagram = request.instagram
-        model.linkedin = request.linkedin
-        model.stackOverflow = request.stackOverflow
-        model.twitter = request.twitter
-        model.profileId = request.profileId
-        return model
-    }
-}
+import {ProfileLink} from "./profileLink.model";
+import {ProfileData} from "./profileData.model";
 @Table({tableName: "profiles"})
 export class Profile extends Model<Profile> implements IProfile {
     @PrimaryKey
@@ -83,11 +28,18 @@ export class Profile extends Model<Profile> implements IProfile {
     @Column({type: DataType.STRING, allowNull: false})
     jobTitle!: string
 
-    @HasOne(() => Link, "profileId")
-    links!: Link
+    @HasOne(() => ProfileLink, "profileId")
+    links?: ProfileLink
+
+    @HasMany(() => ProfileData, "profileId")
+    data?: ProfileData[]
 
     @NotNull
-    @Column({type: DataType.STRING, allowNull: false})
+    @Column({
+        allowNull: false,
+        type: DataType.ENUM("OWNER", "GUEST"),
+        defaultValue: "GUEST"
+    })
     role!: string
 
     static asModel(request: IProfile) {

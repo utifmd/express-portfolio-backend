@@ -1,10 +1,17 @@
 import {Request, Response} from "express"
-import {Link, Profile} from "../models/profile.model";
+import {Profile} from "../models/profile.model";
+import {ProfileLink} from "../models/profileLink.model";
+import {ProfileData} from "../models/profileData.model";
+import {FindOptions} from "sequelize";
 export class ProfileController {
     static async profileRead(req: Request, resp: Response) {
         try {
             const {email} = req.params as TParamsRequest
-            const response = await Profile.findOne({where: {email}, include: Link})
+            const options: FindOptions = {
+                where: {email},
+                include: [ProfileLink, ProfileData]
+            }
+            const response = await Profile.findOne(options)
             if (!response){
                 resp.status(404).send(
                     <TMessageResponse>{message: `Profile with email ${email} not found.`}
@@ -52,7 +59,19 @@ export class ProfileController {
     static async linkCreate(req: Request, resp: Response) {
         try {
             const request = req.body as IProfileLinks
-            const response = await Link.asModel(request).save()
+            const response = await ProfileLink.asModel(request).save()
+
+            resp.status(200).send(response)
+        } catch (e) {
+
+            const {message} = e as Error
+            resp.status(500).send(<TMessageResponse>{message})
+        }
+    }
+    static async dataCreate(req: Request, resp: Response) {
+        try {
+            const request = req.body as IProfileData
+            const response = await ProfileData.asModel(request).save()
 
             resp.status(200).send(response)
         } catch (e) {
@@ -65,16 +84,35 @@ export class ProfileController {
         try {
             const {id} = req.params as TParamsRequest
             const request = req.body as IProfileLinks
-            const [affectedCount] = await Link.update(request, {where: {profileId: id}})
+            const [affectedCount] = await ProfileLink.update(request, {where: {id}})
 
             if (affectedCount > 0) {
-                const response = Link.asModel(request)
+                const response = ProfileLink.asModel(request)
                 resp.status(200).send(response)
                 return
             }
             resp.status(401).send(
                 <TMessageResponse>{
                     message: `Couldn\'t update link with linkId ${id}`})
+        } catch (e) {
+            const {message} = e as Error
+            resp.status(500).send(<TMessageResponse>{message})
+        }
+    }
+    static async dataUpdate(req: Request, resp: Response) {
+        try {
+            const {id} = req.params as TParamsRequest
+            const request = req.body as IProfileData
+            const [affectedCount] = await ProfileData.update(request, {where: {id}})
+
+            if (affectedCount > 0) {
+                const response = ProfileData.asModel(request)
+                resp.status(200).send(response)
+                return
+            }
+            resp.status(401).send(
+                <TMessageResponse>{
+                    message: `Couldn\'t update profileData with profileDataId ${id}`})
         } catch (e) {
             const {message} = e as Error
             resp.status(500).send(<TMessageResponse>{message})

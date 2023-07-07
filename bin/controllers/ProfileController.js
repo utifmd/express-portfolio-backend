@@ -11,12 +11,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileController = void 0;
 const profile_model_1 = require("../models/profile.model");
+const profileLink_model_1 = require("../models/profileLink.model");
+const profileData_model_1 = require("../models/profileData.model");
 class ProfileController {
     static profileRead(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { email } = req.params;
-                const response = yield profile_model_1.Profile.findOne({ where: { email }, include: profile_model_1.Link });
+                const options = {
+                    where: { email },
+                    include: [profileLink_model_1.ProfileLink, profileData_model_1.ProfileData]
+                };
+                const response = yield profile_model_1.Profile.findOne(options);
                 if (!response) {
                     resp.status(404).send({ message: `Profile with email ${email} not found.` });
                     return;
@@ -67,7 +73,20 @@ class ProfileController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const request = req.body;
-                const response = yield profile_model_1.Link.asModel(request).save();
+                const response = yield profileLink_model_1.ProfileLink.asModel(request).save();
+                resp.status(200).send(response);
+            }
+            catch (e) {
+                const { message } = e;
+                resp.status(500).send({ message });
+            }
+        });
+    }
+    static dataCreate(req, resp) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const request = req.body;
+                const response = yield profileData_model_1.ProfileData.asModel(request).save();
                 resp.status(200).send(response);
             }
             catch (e) {
@@ -81,14 +100,35 @@ class ProfileController {
             try {
                 const { id } = req.params;
                 const request = req.body;
-                const [affectedCount] = yield profile_model_1.Link.update(request, { where: { profileId: id } });
+                const [affectedCount] = yield profileLink_model_1.ProfileLink.update(request, { where: { id } });
                 if (affectedCount > 0) {
-                    const response = profile_model_1.Link.asModel(request);
+                    const response = profileLink_model_1.ProfileLink.asModel(request);
                     resp.status(200).send(response);
                     return;
                 }
                 resp.status(401).send({
                     message: `Couldn\'t update link with linkId ${id}`
+                });
+            }
+            catch (e) {
+                const { message } = e;
+                resp.status(500).send({ message });
+            }
+        });
+    }
+    static dataUpdate(req, resp) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const request = req.body;
+                const [affectedCount] = yield profileData_model_1.ProfileData.update(request, { where: { id } });
+                if (affectedCount > 0) {
+                    const response = profileData_model_1.ProfileData.asModel(request);
+                    resp.status(200).send(response);
+                    return;
+                }
+                resp.status(401).send({
+                    message: `Couldn\'t update profileData with profileDataId ${id}`
                 });
             }
             catch (e) {

@@ -8,16 +8,18 @@ const education_1 = __importDefault(require("./education"));
 const experience_1 = __importDefault(require("./experience"));
 const authentication_1 = __importDefault(require("./authentication"));
 const file_1 = __importDefault(require("./file"));
-const imageRouter_1 = __importDefault(require("./imageRouter"));
+const image_1 = __importDefault(require("./image"));
+const profile_1 = __importDefault(require("./profile"));
 const router = express_1.default.Router();
 router.get('/', function (_, res) {
     res.send("Portfolio backend with expressjs and typescript");
 });
 router.use("/authentication", authentication_1.default);
+router.use("/profile", profile_1.default);
 router.use("/educations", education_1.default);
 router.use("/experiences", experience_1.default);
 router.use("/files", file_1.default);
-router.use("/images", imageRouter_1.default);
+router.use("/images", image_1.default);
 const apiRouter = express_1.default.Router();
 apiRouter.use("/api", router);
 apiRouter.all("*", (req, resp) => {

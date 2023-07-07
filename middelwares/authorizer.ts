@@ -8,8 +8,9 @@ export const authorizer = (req: Request, resp: Response, next: NextFunction) => 
             resp.status(401).send(<TMessageResponse>{message: `Unauthorized`})
             return
         }
-        const {id} = Authentication.verifyToken(token) as ITokenProps
-        (resp.locals as TLocalsResponse).authId = id
+        const {id, email} = Authentication.verifyToken(token) as ITokenProps
+        (resp.locals as TLocalsResponse).authId = id;
+        (resp.locals as TLocalsResponse).authEmail = email;
         next()
 
     } catch (e) {

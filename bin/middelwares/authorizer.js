@@ -9,8 +9,9 @@ const authorizer = (req, resp, next) => {
             resp.status(401).send({ message: `Unauthorized` });
             return;
         }
-        const { id } = authentication_model_1.Authentication.verifyToken(token);
+        const { id, email } = authentication_model_1.Authentication.verifyToken(token);
         resp.locals.authId = id;
+        resp.locals.authEmail = email;
         next();
     }
     catch (e) {

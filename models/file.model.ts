@@ -1,4 +1,4 @@
-import {Column, DataType, Model, NotNull, PrimaryKey, Table} from "sequelize-typescript";
+import {DataType, Column, Model, NotNull, PrimaryKey, Table} from "sequelize-typescript";
 import {randomUUID} from "crypto";
 
 @Table({tableName: "files"})

@@ -6,6 +6,7 @@ import deleter from "../middelwares/deleter";
 /*
 * TODO:
 *  1. build profile entity; - update, - create(seed)
+*  2. on frontend create a flash screen
 * */
 const router = Router()
 router.post("/", authorizer, uploader, controller.create)

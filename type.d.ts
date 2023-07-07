@@ -1,42 +1,6 @@
-interface IAuthentication {
-    id?: string,
-    email: string,
-    password: string,
-    createdAt?: any,
-    updatedAt?: any
-}
-interface IEducation {
-    id?: string,
-    title: string,
-    desc: string,
-    content: string,
-    fileUrl: string,
-    imageUrl: string,
-    createdAt?: any,
-    updatedAt?: any
-}
-interface IExperience {
-    id?: string,
-    type: string, // "FRONT-END" | "BACK-END" | "MOBILE",
-    title: string,
-    description: string,
-    platform: string, // "ANDROID" | "IOS" | "WEB",
-    stack: any, // string[],
-    imageUrls?: any, // string[],
-    iconUrl: string,
-    releasedUrl: string,
-    demoUrl?: string,
-    createdAt?: any,
-    updatedAt?: any
-}
-interface IFile {
-    id?: string
-    mimeType: string
-    size: number
-    buffer: any
-}
 interface ITokenProps {
     id: string,
+    email: string,
     createdAt: any
 }
 type TMessageResponse = {
@@ -44,6 +8,7 @@ type TMessageResponse = {
 }
 type TParamsRequest = {
     id: string
+    email: string
 }
 type TTokenResponse = {
     token: string
@@ -53,6 +18,7 @@ type TDataResponse = {
 }
 type TLocalsResponse = {
     authId: string
+    authEmail: string
     singleFileUrls: string[]
     multipleFileUrls?: string[]
     files: any[]

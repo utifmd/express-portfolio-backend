@@ -40,7 +40,7 @@ export class Authentication extends Model<Authentication> implements IAuthentica
     signToken(): string {
         const secretKey = process.env.SECRET_KEY || "utifmd@gmail.com"
         const payload = <ITokenProps>{
-            id: this.id, createdAt: this.createdAt
+            id: this.id, email: this.email, createdAt: this.createdAt
         }
         if (typeof payload.id === "undefined" || typeof payload.createdAt === "undefined")
             throw Error("authentication properties incompatible")

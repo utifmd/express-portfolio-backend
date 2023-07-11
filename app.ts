@@ -8,9 +8,9 @@ import router from './routes'
 import * as process from "process";
 
 configureDotenv()
-// const clientOrigin = ((process.env as any) as IEnvVariable).CLIENT_ORIGIN
+const clientOrigin = ((process.env as any) as IEnvVariable).CLIENT_ORIGIN
 export const app = express();
-app.use(cors({origin: "*"}))
+app.use(cors({origin: clientOrigin}))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

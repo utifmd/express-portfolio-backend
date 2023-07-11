@@ -14,7 +14,7 @@ const profile_model_1 = require("../models/profile.model");
 const profileLink_model_1 = require("../models/profileLink.model");
 const profileData_model_1 = require("../models/profileData.model");
 class ProfileController {
-    static profileRead(req, resp) {
+    static mainRead(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { email } = req.params;
@@ -35,7 +35,7 @@ class ProfileController {
             }
         });
     }
-    static profileCreate(req, resp) {
+    static mainCreate(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const request = req.body;
@@ -48,13 +48,14 @@ class ProfileController {
             }
         });
     }
-    static profileUpdate(req, resp) {
+    static mainUpdate(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { id } = req.params;
+                const { id } = req.query;
                 const request = req.body;
                 const [affectedCount] = yield profile_model_1.Profile.update(request, { where: { id } });
                 if (affectedCount > 0) {
+                    request.id = id;
                     const response = profile_model_1.Profile.asModel(request);
                     resp.status(200).send(response);
                     return;
@@ -98,10 +99,11 @@ class ProfileController {
     static linkUpdate(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { id } = req.params;
+                const { id } = req.query;
                 const request = req.body;
                 const [affectedCount] = yield profileLink_model_1.ProfileLink.update(request, { where: { id } });
                 if (affectedCount > 0) {
+                    request.id = id;
                     const response = profileLink_model_1.ProfileLink.asModel(request);
                     resp.status(200).send(response);
                     return;
@@ -119,15 +121,16 @@ class ProfileController {
     static dataUpdate(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { id } = req.params;
+                const { id } = req.query;
                 const request = req.body;
                 const [affectedCount] = yield profileData_model_1.ProfileData.update(request, { where: { id } });
                 if (affectedCount > 0) {
+                    request.id = id;
                     const response = profileData_model_1.ProfileData.asModel(request);
                     resp.status(200).send(response);
                     return;
                 }
-                resp.status(401).send({
+                resp.status(403).send({
                     message: `Couldn\'t update profileData with profileDataId ${id}`
                 });
             }

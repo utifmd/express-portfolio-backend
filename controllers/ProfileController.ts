@@ -4,7 +4,7 @@ import {ProfileLink} from "../models/profileLink.model";
 import {ProfileData} from "../models/profileData.model";
 import {FindOptions} from "sequelize";
 export class ProfileController {
-    static async profileRead(req: Request, resp: Response) {
+    static async mainRead(req: Request, resp: Response) {
         try {
             const {email} = req.params as TParamsRequest
             const options: FindOptions = {
@@ -25,7 +25,7 @@ export class ProfileController {
             resp.status(500).send(<TMessageResponse>{message})
         }
     }
-    static async profileCreate(req: Request, resp: Response) {
+    static async mainCreate(req: Request, resp: Response) {
         try {
             const request = req.body as IProfile
             const response = await Profile.asModel(request).save()
@@ -37,13 +37,14 @@ export class ProfileController {
             resp.status(500).send(<TMessageResponse>{message})
         }
     }
-    static async profileUpdate(req: Request, resp: Response) {
+    static async mainUpdate(req: Request, resp: Response) {
         try {
-            const {id} = req.params as TParamsRequest
+            const {id} = req.query as TParamsRequest
             const request = req.body as IProfile
             const [affectedCount] = await Profile.update(request, {where: {id}})
 
             if (affectedCount > 0) {
+                request.id = id
                 const response = Profile.asModel(request)
                 resp.status(200).send(response)
                 return
@@ -82,11 +83,12 @@ export class ProfileController {
     }
     static async linkUpdate(req: Request, resp: Response) {
         try {
-            const {id} = req.params as TParamsRequest
+            const {id} = req.query as TParamsRequest
             const request = req.body as IProfileLinks
             const [affectedCount] = await ProfileLink.update(request, {where: {id}})
 
             if (affectedCount > 0) {
+                request.id = id
                 const response = ProfileLink.asModel(request)
                 resp.status(200).send(response)
                 return
@@ -101,16 +103,17 @@ export class ProfileController {
     }
     static async dataUpdate(req: Request, resp: Response) {
         try {
-            const {id} = req.params as TParamsRequest
+            const {id} = req.query as TParamsRequest
             const request = req.body as IProfileData
             const [affectedCount] = await ProfileData.update(request, {where: {id}})
 
             if (affectedCount > 0) {
+                request.id = id
                 const response = ProfileData.asModel(request)
                 resp.status(200).send(response)
                 return
             }
-            resp.status(401).send(
+            resp.status(403).send(
                 <TMessageResponse>{
                     message: `Couldn\'t update profileData with profileDataId ${id}`})
         } catch (e) {

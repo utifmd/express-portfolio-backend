@@ -17,7 +17,7 @@ const crypto_1 = require("crypto");
 let ProfileData = exports.ProfileData = ProfileData_1 = class ProfileData extends sequelize_typescript_1.Model {
     static asModel(request) {
         const model = new ProfileData_1();
-        model.id = (0, crypto_1.randomUUID)();
+        model.id = request.id || (0, crypto_1.randomUUID)();
         model.type = request.type;
         model.title = request.title;
         model.description = request.description;

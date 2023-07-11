@@ -32,7 +32,7 @@ export class ProfileData extends Model<ProfileData> implements IProfileData {
 
     static asModel(request: IProfileData){
         const model = new ProfileData()
-        model.id = randomUUID()
+        model.id = request.id || randomUUID()
         model.type = request.type
         model.title = request.title
         model.description = request.description

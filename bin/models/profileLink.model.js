@@ -17,7 +17,7 @@ const profile_model_1 = require("./profile.model");
 let ProfileLink = exports.ProfileLink = ProfileLink_1 = class ProfileLink extends sequelize_typescript_1.Model {
     static asModel(request) {
         const model = new ProfileLink_1();
-        model.id = (0, crypto_1.randomUUID)();
+        model.id = request.id || (0, crypto_1.randomUUID)();
         model.email = request.email;
         model.github = request.github;
         model.medium = request.medium;

@@ -44,7 +44,7 @@ export class Profile extends Model<Profile> implements IProfile {
 
     static asModel(request: IProfile) {
         const model = new Profile()
-        model.id = randomUUID()
+        model.id = request.id || randomUUID()
         model.bio = request.bio
         model.email = request.email
         model.fullName = request.fullName

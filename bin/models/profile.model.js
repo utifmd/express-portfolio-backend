@@ -18,7 +18,7 @@ const profileData_model_1 = require("./profileData.model");
 let Profile = exports.Profile = Profile_1 = class Profile extends sequelize_typescript_1.Model {
     static asModel(request) {
         const model = new Profile_1();
-        model.id = (0, crypto_1.randomUUID)();
+        model.id = request.id || (0, crypto_1.randomUUID)();
         model.bio = request.bio;
         model.email = request.email;
         model.fullName = request.fullName;

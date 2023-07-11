@@ -46,7 +46,7 @@ export class ProfileLink extends Model<ProfileLink> implements IProfileLinks {
 
     static asModel(request: IProfileLinks) {
         const model = new ProfileLink()
-        model.id = randomUUID()
+        model.id = request.id || randomUUID()
         model.email = request.email
         model.github = request.github
         model.medium = request.medium

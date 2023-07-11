@@ -20,7 +20,10 @@ class ProfileController {
                 const { email } = req.params;
                 const options = {
                     where: { email },
-                    include: [profileLink_model_1.ProfileLink, profileData_model_1.ProfileData]
+                    include: [profileLink_model_1.ProfileLink, { model: profileData_model_1.ProfileData, as: 'data' }],
+                    order: [
+                        ['data', 'type', 'DESC']
+                    ]
                 };
                 const response = yield profile_model_1.Profile.findOne(options);
                 if (!response) {
@@ -53,6 +56,10 @@ class ProfileController {
             try {
                 const { id } = req.query;
                 const request = req.body;
+                const { singleFileUrls } = resp.locals;
+                if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0) {
+                    request.imageUrl = singleFileUrls[0];
+                }
                 const [affectedCount] = yield profile_model_1.Profile.update(request, { where: { id } });
                 if (affectedCount > 0) {
                     request.id = id;

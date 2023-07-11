@@ -9,7 +9,10 @@ export class ProfileController {
             const {email} = req.params as TParamsRequest
             const options: FindOptions = {
                 where: {email},
-                include: [ProfileLink, ProfileData]
+                include: [ProfileLink, {model: ProfileData, as: 'data'}],
+                order: [
+                    ['data', 'type', 'DESC']
+                ]
             }
             const response = await Profile.findOne(options)
             if (!response){
@@ -41,6 +44,11 @@ export class ProfileController {
         try {
             const {id} = req.query as TParamsRequest
             const request = req.body as IProfile
+            const {singleFileUrls} = resp.locals as TLocalsResponse
+
+            if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0) {
+                request.imageUrl = singleFileUrls[0]
+            }
             const [affectedCount] = await Profile.update(request, {where: {id}})
 
             if (affectedCount > 0) {

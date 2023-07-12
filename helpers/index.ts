@@ -4,7 +4,7 @@ export enum FileUploadFieldNames {
 export enum FileDeleteFieldNames {
     SINGLE = "image-delete", MULTIPLE = "images-delete"
 }
-export const FILE_UPLOAD_DESTINATION: string = "public/images"
+export const FILE_UPLOAD_DESTINATION: string = "./public/images"
 export const PUBLIC_FILE_UPLOAD_DESTINATION: string = "public"
 export const IMAGE_PLACEHOLDER_URL: string = "https://via.placeholde.com/150"
 export function getPathName(url: string) {

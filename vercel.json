@@ -10,15 +10,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "bin/index.js"
-    },
-    {
-      "src": "/",
-      "dest": "public/index.html"
-    },
-    {
-      "src": "/(.+)",
-      "dest": "public/$1"
+      "dest": "/"
     }
   ]
 }

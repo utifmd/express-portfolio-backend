@@ -1,8 +1,8 @@
 FROM node:latest
 
-RUN mkdir -p ./development/backend/expressjs/personal
+RUN mkdir -p ./development/backend/expressjs/portfolio
 
-WORKDIR ./development/backend/expressjs/personal
+WORKDIR ./development/backend/expressjs/portfolio
 
 COPY ./package*.json ./
 

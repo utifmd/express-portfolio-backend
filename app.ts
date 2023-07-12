@@ -3,7 +3,6 @@ import {config as configureDotenv} from 'dotenv'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import cors from 'cors'
-import path from 'path'
 import router from './routes'
 import * as process from "process";
 

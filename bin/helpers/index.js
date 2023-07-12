@@ -11,7 +11,7 @@ var FileDeleteFieldNames;
     FileDeleteFieldNames["SINGLE"] = "image-delete";
     FileDeleteFieldNames["MULTIPLE"] = "images-delete";
 })(FileDeleteFieldNames || (exports.FileDeleteFieldNames = FileDeleteFieldNames = {}));
-exports.FILE_UPLOAD_DESTINATION = "public/images";
+exports.FILE_UPLOAD_DESTINATION = "./public/images";
 exports.PUBLIC_FILE_UPLOAD_DESTINATION = "public";
 exports.IMAGE_PLACEHOLDER_URL = "https://via.placeholde.com/150";
 function getPathName(url) {

@@ -5,12 +5,24 @@
       "src": "bin/index.js",
       "use": "@vercel/node",
       "config": { "includeFiles": ["bin/**"] }
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/bin/index.js"
+    },
+    {
+      "src": "/",
+      "dest": "public/index.html"
+    },
+    {
+      "src": "/(.+)",
+      "dest": "public/$1"
     }
   ]
 }

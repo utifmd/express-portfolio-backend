@@ -42,6 +42,6 @@ exports.app.use((0, morgan_1.default)('dev'));
 exports.app.use(express_1.default.json());
 exports.app.use(express_1.default.urlencoded({ extended: true }));
 exports.app.use((0, cookie_parser_1.default)());
-exports.app.use(express_1.default.static("public"));
+exports.app.use(express_1.default.static('public'));
 exports.app.use(routes_1.default);
 //# sourceMappingURL=app.js.map

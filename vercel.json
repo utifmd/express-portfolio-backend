@@ -8,12 +8,13 @@
     }
   ],
   "redirects": [
-    { "source": "/about", "destination": "public/index.html" }
-  ],
-  "routes": [
     {
-      "src": "/(.*)",
-      "dest": "bin/index.js"
+      "source": "/(.*)",
+      "destination": "bin/index.js"
+    },
+    {
+      "source": "/about",
+      "destination": "public/index.html"
     }
   ]
 }

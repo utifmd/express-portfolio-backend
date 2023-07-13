@@ -11,21 +11,21 @@ const file_1 = __importDefault(require("./file"));
 const image_1 = __importDefault(require("./image"));
 const profile_1 = __importDefault(require("./profile"));
 const router = express_1.default.Router();
-router.get('/', function (_, res) {
-    res.send("Portfolio backend with expressjs and typescript");
-});
 router.use("/authentication", authentication_1.default);
 router.use("/profile", profile_1.default);
 router.use("/educations", education_1.default);
 router.use("/experiences", experience_1.default);
 router.use("/files", file_1.default);
 router.use("/images", image_1.default);
-const apiRouter = express_1.default.Router();
-apiRouter.use("/api", router);
-apiRouter.all("*", (req, resp) => {
+/*router.get('/', function(_: Request, res: Response) {
+  res.send("Portfolio backend with expressjs and typescript")
+});
+const apiRouter = express.Router()
+apiRouter.use("/api", router)*/
+router.all("*", (req, resp) => {
     resp.status(404).send({
         message: "Page not found"
     });
 });
-exports.default = apiRouter;
+exports.default = router;
 //# sourceMappingURL=index.js.map

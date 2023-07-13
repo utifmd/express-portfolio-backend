@@ -17,7 +17,7 @@
       "dest": "bin/index.js"
     },
     {
-      "src": "/?nft=*",
+      "src": "/",
       "dest": "public/index.html"
     },
     {

@@ -1,6 +1,5 @@
 import {NextFunction, Request, RequestHandler, Response} from "express";
 import multer, {Field} from "multer";
-import {File} from "../models/file.model";
 import {FILE_UPLOAD_DESTINATION, FileUploadFieldNames as FieldNames, PUBLIC_FILE_UPLOAD_DESTINATION} from "../helpers"
 import {randomUUID} from "crypto";
 export const uploader = async (req: Request, resp: Response, next: NextFunction) => {

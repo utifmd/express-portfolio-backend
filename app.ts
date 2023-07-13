@@ -14,6 +14,6 @@ app.use(cors({origin: clientOrigin}))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use("/", express.static("public"));
+app.use("/", express.static(path.join(process.cwd(), "public")));
 app.use(cookieParser());
 app.use(router);

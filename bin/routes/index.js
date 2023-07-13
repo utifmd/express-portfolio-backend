@@ -17,15 +17,15 @@ router.use("/educations", education_1.default);
 router.use("/experiences", experience_1.default);
 router.use("/files", file_1.default);
 router.use("/images", image_1.default);
-/*router.get('/', function(_: Request, res: Response) {
-  res.send("Portfolio backend with expressjs and typescript")
+const apiRouter = express_1.default.Router();
+apiRouter.get('/', function (_, res) {
+    res.send("Portfolio backend with expressjs and typescript");
 });
-const apiRouter = express.Router()
-apiRouter.use("/api", router)*/
-router.all("*", (req, resp) => {
+apiRouter.use("/api", router);
+apiRouter.all("*", (req, resp) => {
     resp.status(404).send({
         message: "Page not found"
     });
 });
-exports.default = router;
+exports.default = apiRouter;
 //# sourceMappingURL=index.js.map

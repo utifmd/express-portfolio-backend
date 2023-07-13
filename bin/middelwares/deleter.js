@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const promises_1 = require("node:fs/promises");
-const helpers_1 = require("../helpers");
+const file_model_1 = require("../models/file.model");
 const deleter = (req, resp, next) => __awaiter(void 0, void 0, void 0, function* () {
     const values = Object.values(req.body);
     if (!values.length) {
@@ -18,12 +17,14 @@ const deleter = (req, resp, next) => __awaiter(void 0, void 0, void 0, function*
         return;
     }
     try {
-        const deletedPaths = [];
+        const deletedIds = [];
         const destroy = (url) => __awaiter(void 0, void 0, void 0, function* () {
-            const path = `${helpers_1.FILE_UPLOAD_DESTINATION}/${url.split("/").pop()}`;
-            yield (0, promises_1.unlink)(path);
-            deletedPaths.push(path);
-            console.log(`${path} delete successfully`);
+            const id = url.split("/").pop();
+            if (!id)
+                return;
+            yield file_model_1.File.destroy({ where: { id } });
+            deletedIds.push(id);
+            console.log(`${id} delete successfully`);
         });
         for (const value of values) {
             if (typeof value === "string") {
@@ -39,7 +40,7 @@ const deleter = (req, resp, next) => __awaiter(void 0, void 0, void 0, function*
             for (const i in value)
                 yield destroy(value[i]);
         }
-        resp.locals.multipleFileUrls = deletedPaths;
+        resp.locals.multipleFileUrls = deletedIds;
     }
     catch (e) {
         console.log(e.message);

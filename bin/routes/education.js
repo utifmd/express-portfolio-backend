@@ -8,11 +8,6 @@ const EducationController_1 = __importDefault(require("../controllers/EducationC
 const authorizer_1 = require("../middelwares/authorizer");
 const uploader_1 = require("../middelwares/uploader");
 const deleter_1 = __importDefault(require("../middelwares/deleter"));
-/*
-* TODO:
-*  1. build profile entity; - update, - create(seed)
-*  2. on frontend create a flash screen
-* */
 const router = (0, express_1.Router)();
 router.post("/", authorizer_1.authorizer, uploader_1.uploader, EducationController_1.default.create);
 router.get("/", EducationController_1.default.paged);

@@ -19,6 +19,12 @@ exports.sequelize = new sequelize_typescript_1.Sequelize(DB_NAME, DB_USER, DB_PA
     port: DB_PORT,
     dialect: DB_DIALECT,
     dialectModule: pg_1.default,
+    /*dialectOptions: {
+        encrypt: true,
+        ssl : {
+            rejectUnauthorized: false
+        }
+    },*/
     pool: {
         max: 2,
         min: 0,

@@ -15,15 +15,15 @@ router.use("/experiences", experienceRouter)
 router.use("/files", fileRouter)
 router.use("/images", imageRouter)
 
-/*router.get('/', function(_: Request, res: Response) {
+const apiRouter = express.Router()
+apiRouter.get('/', function(_: Request, res: Response) {
   res.send("Portfolio backend with expressjs and typescript")
 });
-const apiRouter = express.Router()
-apiRouter.use("/api", router)*/
+apiRouter.use("/api", router)
 
-router.all("*", (req: Request, resp: Response) => {
+apiRouter.all("*", (req: Request, resp: Response) => {
   resp.status(404).send(<TMessageResponse>{
     message: "Page not found"
   })
 })
-export default router;
+export default apiRouter;

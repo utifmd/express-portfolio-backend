@@ -72,4 +72,13 @@ export class FileController {
             resp.status(500).send(<TMessageResponse>{message: error.message || JSON.stringify(error)})
         }
     }
+    static onDestroyed(req: Request, resp: Response) {
+        const {multipleFileUrls} = resp.locals as TLocalsResponse
+        resp.status(200).send(
+            <TMessageResponse>{message: multipleFileUrls && multipleFileUrls.length
+                    ? "images deleted successfully"
+                    : "delete images cancelled"
+            }
+        )
+    }
 }

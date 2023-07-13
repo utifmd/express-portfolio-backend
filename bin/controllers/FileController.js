@@ -86,6 +86,13 @@ class FileController {
             }
         });
     }
+    static onDestroyed(req, resp) {
+        const { multipleFileUrls } = resp.locals;
+        resp.status(200).send({ message: multipleFileUrls && multipleFileUrls.length
+                ? "images deleted successfully"
+                : "delete images cancelled"
+        });
+    }
 }
 exports.FileController = FileController;
 //# sourceMappingURL=FileController.js.map

@@ -13,29 +13,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploader = void 0;
+const file_model_1 = require("../models/file.model");
 const multer_1 = __importDefault(require("multer"));
 const helpers_1 = require("../helpers");
-const crypto_1 = require("crypto");
 const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = [
-        { name: helpers_1.FileUploadFieldNames.SINGLE, maxCount: 1 },
-        { name: helpers_1.FileUploadFieldNames.MULTIPLE, maxCount: 20 }
-    ];
-    const options = {
-        fileFilter(req, file, callback) {
-            callback(null, file.mimetype.split("/")[0] === "image");
+        {
+            name: helpers_1.FileUploadFieldNames.SINGLE,
+            maxCount: 1
         },
-        storage: multer_1.default.diskStorage({
-            destination: (mReq, file, callback) => {
-                callback(null, helpers_1.FILE_UPLOAD_DESTINATION);
-            },
-            filename(mReq, file, callback) {
-                const filename = `${(0, crypto_1.randomUUID)()}.${file.originalname.split(".").pop()}`;
-                callback(null, filename);
-            }
-        })
-    };
-    const upload = (0, multer_1.default)(options).fields(fields);
+        {
+            name: helpers_1.FileUploadFieldNames.MULTIPLE,
+            maxCount: 20
+        }
+    ];
+    const upload = (0, multer_1.default)().fields(fields);
     return upload(req, resp, (e) => __awaiter(void 0, void 0, void 0, function* () {
         if (e instanceof multer_1.default.MulterError) {
             console.log("multer error ", e.message);
@@ -59,10 +51,10 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
             next();
             return;
         }
-        const domainName = `${req.protocol}://${req.get("host")}`;
         if (helpers_1.FileUploadFieldNames.SINGLE in req.files) {
             for (const file of Object.values(req.files[helpers_1.FileUploadFieldNames.SINGLE])) {
-                const url = `${domainName}${file.path.split(helpers_1.PUBLIC_FILE_UPLOAD_DESTINATION)[1]}`;
+                const response = yield file_model_1.File.asModel(file).save();
+                const url = req.protocol + "://" + req.get("host") + `/api/files/${response.id}`;
                 singleUrls.push(url);
             }
             console.log("single uploaded: ", singleUrls);
@@ -70,7 +62,8 @@ const uploader = (req, resp, next) => __awaiter(void 0, void 0, void 0, function
         }
         if (helpers_1.FileUploadFieldNames.MULTIPLE in req.files) {
             for (const file of Object.values(req.files[helpers_1.FileUploadFieldNames.MULTIPLE])) {
-                const url = `${domainName}${file.path.split(helpers_1.PUBLIC_FILE_UPLOAD_DESTINATION)[1]}`;
+                const response = yield file_model_1.File.asModel(file).save();
+                const url = req.protocol + "://" + req.get("host") + `/api/files/${response.id}`;
                 multipleUrls.push(url);
             }
             console.log("multiple uploaded: ", multipleUrls);

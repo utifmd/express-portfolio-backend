@@ -11,10 +11,6 @@
     {
       "src": "/(.*)",
       "dest": "bin/index.js"
-    },
-    {
-      "src": "/about",
-      "dest": "public/index.html"
     }
   ]
 }

@@ -7,14 +7,14 @@
       "config": { "includeFiles": ["bin/**"] }
     }
   ],
-  "redirects": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "bin/index.js"
+      "src": "/(.*)",
+      "dest": "bin/index.js"
     },
     {
-      "source": "/about",
-      "destination": "public/index.html"
+      "src": "/about",
+      "dest": "public/index.html"
     }
   ]
 }

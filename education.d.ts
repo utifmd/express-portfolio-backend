@@ -1,5 +1,5 @@
 interface IEducation {
-    id?: string,
+    id: string | null,
     title: string,
     desc: string,
     content: string,

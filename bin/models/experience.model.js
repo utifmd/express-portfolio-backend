@@ -34,12 +34,12 @@ let Experience = exports.Experience = Experience_1 = class Experience extends se
 __decorate([
     sequelize_typescript_1.PrimaryKey,
     (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.UUID }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], Experience.prototype, "id", void 0);
 __decorate([
     sequelize_typescript_1.IsUrl,
-    sequelize_typescript_1.Column,
-    __metadata("design:type", String)
+    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.STRING }),
+    __metadata("design:type", Object)
 ], Experience.prototype, "demoUrl", void 0);
 __decorate([
     sequelize_typescript_1.NotNull,
@@ -47,6 +47,7 @@ __decorate([
     __metadata("design:type", String)
 ], Experience.prototype, "description", void 0);
 __decorate([
+    sequelize_typescript_1.IsUrl,
     sequelize_typescript_1.NotNull,
     (0, sequelize_typescript_1.Column)({ allowNull: false }),
     __metadata("design:type", String)
@@ -54,7 +55,7 @@ __decorate([
 __decorate([
     sequelize_typescript_1.NotEmpty,
     (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.ARRAY(sequelize_typescript_1.DataType.STRING) }),
-    __metadata("design:type", Array)
+    __metadata("design:type", Object)
 ], Experience.prototype, "imageUrls", void 0);
 __decorate([
     sequelize_typescript_1.NotNull,
@@ -77,7 +78,7 @@ __decorate([
     (0, sequelize_typescript_1.Column)({
         allowNull: false, type: sequelize_typescript_1.DataType.ARRAY(sequelize_typescript_1.DataType.STRING)
     }),
-    __metadata("design:type", Array)
+    __metadata("design:type", Object)
 ], Experience.prototype, "stack", void 0);
 __decorate([
     sequelize_typescript_1.NotNull,

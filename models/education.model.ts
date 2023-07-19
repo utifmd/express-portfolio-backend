@@ -5,7 +5,7 @@ import {randomUUID} from "crypto";
 export class Education extends Model<Education> implements IEducation {
     @PrimaryKey
     @Column({type: DataType.UUID})
-    id?: string
+    id!: string | null
 
     @NotNull
     @Column({allowNull: false})
@@ -24,7 +24,7 @@ export class Education extends Model<Education> implements IEducation {
     @Column({allowNull: false})
     fileUrl!: string;
 
-    // @IsUrl
+    @IsUrl
     @NotNull
     @Column({allowNull: false})
     imageUrl!: string;

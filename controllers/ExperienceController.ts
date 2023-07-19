@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {Experience} from "../models/experience.model";
+import {IMAGE_PLACEHOLDER_URL} from "../helpers";
 
 class ExperienceController {
     static async paged(req: Request, resp: Response) {
@@ -21,7 +22,7 @@ class ExperienceController {
             const request = req.body as IExperience
             const {singleFileUrls, multipleFileUrls} = resp.locals as TLocalsResponse
 
-            request.iconUrl = singleFileUrls[0]
+            request.iconUrl = singleFileUrls ? singleFileUrls[0] : IMAGE_PLACEHOLDER_URL
             request.imageUrls = multipleFileUrls
             request.stack = JSON.parse(request.stack)
 
@@ -42,17 +43,18 @@ class ExperienceController {
             const {singleFileUrls, multipleFileUrls} = resp.locals as TLocalsResponse // passed by middleware
             const request = req.body as IExperience
 
-            request.imageUrls = JSON.parse(request.imageUrls)
             request.stack = JSON.parse(request.stack)
 
-            if (typeof multipleFileUrls !== "undefined" && multipleFileUrls.length > 0)
-                request.imageUrls = [...request.imageUrls, ...multipleFileUrls]
-
-            if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0)
-                request.iconUrl = singleFileUrls[0] // unnecessary
+            if (request.imageUrls) {
+                request.imageUrls = JSON.parse(request.imageUrls)
+                if (multipleFileUrls && multipleFileUrls.length > 0)
+                    request.imageUrls = [...request.imageUrls, ...multipleFileUrls]
+            }
+            if (singleFileUrls && singleFileUrls[0].length > 0)
+                request.iconUrl = singleFileUrls[0]
 
             const [affectedCount] = await Experience.update(
-                request, {where: {id}}
+                JSON.parse(JSON.stringify(request)), {where: {id}}
             )
             if (affectedCount > 0) {
                 const response = Experience.asModel(request)

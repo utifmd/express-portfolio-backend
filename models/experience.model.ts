@@ -7,24 +7,24 @@ import {randomUUID} from "crypto";
 export class Experience extends Model<Experience> implements IExperience {
     @PrimaryKey
     @Column({type: DataType.UUID})
-    id?: string
+    id!: string | null
 
     @IsUrl
-    @Column
-    demoUrl?: string;
+    @Column({type: DataType.STRING})
+    demoUrl!: string | null
 
     @NotNull
     @Column({allowNull: false, type: DataType.TEXT})
     description!: string;
 
-    // @IsUrl
+    @IsUrl
     @NotNull
     @Column({allowNull: false})
     iconUrl!: string;
 
     @NotEmpty
     @Column({type: DataType.ARRAY(DataType.STRING)})
-    imageUrls?: string[];
+    imageUrls!: any;
 
     @NotNull
     @Column({
@@ -44,7 +44,7 @@ export class Experience extends Model<Experience> implements IExperience {
     @Column({
         allowNull: false, type: DataType.ARRAY(DataType.STRING)
     })
-    stack!: string[];
+    stack!: any;
 
     @NotNull
     @Column({allowNull: false})

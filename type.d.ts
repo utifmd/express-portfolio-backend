@@ -19,8 +19,8 @@ type TDataResponse = {
 type TLocalsResponse = {
     authId: string
     authEmail: string
-    singleFileUrls: string[]
-    multipleFileUrls?: string[]
+    singleFileUrls: string[] | null
+    multipleFileUrls: string[] | null
     files: any[]
 }
 interface IEnvVariable {

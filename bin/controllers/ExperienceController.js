@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const experience_model_1 = require("../models/experience.model");
+const helpers_1 = require("../helpers");
 class ExperienceController {
     static paged(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -32,7 +33,7 @@ class ExperienceController {
             try {
                 const request = req.body;
                 const { singleFileUrls, multipleFileUrls } = resp.locals;
-                request.iconUrl = singleFileUrls[0];
+                request.iconUrl = singleFileUrls ? singleFileUrls[0] : helpers_1.IMAGE_PLACEHOLDER_URL;
                 request.imageUrls = multipleFileUrls;
                 request.stack = JSON.parse(request.stack);
                 const response = yield experience_model_1.Experience.asModel(request).save();
@@ -53,13 +54,15 @@ class ExperienceController {
                 const { id } = req.query;
                 const { singleFileUrls, multipleFileUrls } = resp.locals; // passed by middleware
                 const request = req.body;
-                request.imageUrls = JSON.parse(request.imageUrls);
                 request.stack = JSON.parse(request.stack);
-                if (typeof multipleFileUrls !== "undefined" && multipleFileUrls.length > 0)
-                    request.imageUrls = [...request.imageUrls, ...multipleFileUrls];
-                if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0)
-                    request.iconUrl = singleFileUrls[0]; // unnecessary
-                const [affectedCount] = yield experience_model_1.Experience.update(request, { where: { id } });
+                if (request.imageUrls) {
+                    request.imageUrls = JSON.parse(request.imageUrls);
+                    if (multipleFileUrls && multipleFileUrls.length > 0)
+                        request.imageUrls = [...request.imageUrls, ...multipleFileUrls];
+                }
+                if (singleFileUrls && singleFileUrls[0].length > 0)
+                    request.iconUrl = singleFileUrls[0];
+                const [affectedCount] = yield experience_model_1.Experience.update(JSON.parse(JSON.stringify(request)), { where: { id } });
                 if (affectedCount > 0) {
                     const response = experience_model_1.Experience.asModel(request);
                     resp.status(200).send(response);

@@ -46,7 +46,7 @@ export class ProfileController {
             const request = req.body as IProfile
             const {singleFileUrls} = resp.locals as TLocalsResponse
 
-            if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0) {
+            if (singleFileUrls && singleFileUrls[0].length > 0) {
                 request.imageUrl = singleFileUrls[0]
             }
             const [affectedCount] = await Profile.update(request, {where: {id}})

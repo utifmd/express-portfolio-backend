@@ -30,7 +30,7 @@ let Education = exports.Education = Education_1 = class Education extends sequel
 __decorate([
     sequelize_typescript_1.PrimaryKey,
     (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.UUID }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], Education.prototype, "id", void 0);
 __decorate([
     sequelize_typescript_1.NotNull,
@@ -54,6 +54,7 @@ __decorate([
     __metadata("design:type", String)
 ], Education.prototype, "fileUrl", void 0);
 __decorate([
+    sequelize_typescript_1.IsUrl,
     sequelize_typescript_1.NotNull,
     (0, sequelize_typescript_1.Column)({ allowNull: false }),
     __metadata("design:type", String)

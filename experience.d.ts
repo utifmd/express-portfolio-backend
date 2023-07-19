@@ -1,14 +1,14 @@
 interface IExperience {
-    id?: string,
-    type: string, // "FRONT-END" | "BACK-END" | "MOBILE",
+    id: string | null,
+    type: string,
     title: string,
     description: string,
-    platform: string, // "ANDROID" | "IOS" | "WEB",
-    stack: any, // string[],
-    imageUrls?: any, // string[],
+    platform: string,
+    stack: any,
+    imageUrls: any,
     iconUrl: string,
     releasedUrl: string,
-    demoUrl?: string,
+    demoUrl: string | null,
     createdAt?: any,
     updatedAt?: any
 }

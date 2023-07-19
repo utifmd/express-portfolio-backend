@@ -57,7 +57,7 @@ class ProfileController {
                 const { id } = req.query;
                 const request = req.body;
                 const { singleFileUrls } = resp.locals;
-                if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0) {
+                if (singleFileUrls && singleFileUrls[0].length > 0) {
                     request.imageUrl = singleFileUrls[0];
                 }
                 const [affectedCount] = yield profile_model_1.Profile.update(request, { where: { id } });

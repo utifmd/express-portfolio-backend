@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const education_model_1 = require("../models/education.model");
+const helpers_1 = require("../helpers");
 class EducationController {
     static paged(req, resp) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -33,7 +34,7 @@ class EducationController {
             try {
                 const request = req.body;
                 const { singleFileUrls } = resp.locals;
-                request.imageUrl = singleFileUrls[0];
+                request.imageUrl = singleFileUrls ? singleFileUrls[0] : helpers_1.IMAGE_PLACEHOLDER_URL;
                 const response = yield education_model_1.Education.asModel(request).save();
                 resp.status(200).send(response);
             }
@@ -51,7 +52,7 @@ class EducationController {
                 const { id } = req.query;
                 const request = req.body;
                 const { singleFileUrls } = resp.locals;
-                if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0) {
+                if (singleFileUrls && singleFileUrls[0].length > 0) {
                     request.imageUrl = singleFileUrls[0];
                 }
                 const [affectedCount] = yield education_model_1.Education.update(request, { where: { id } });

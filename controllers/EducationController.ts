@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {Education} from "../models/education.model"
+import {IMAGE_PLACEHOLDER_URL} from "../helpers";
 
 class EducationController {
     static async paged(req: Request, resp: Response) {
@@ -21,7 +22,7 @@ class EducationController {
         try {
             const request = req.body as IEducation
             const {singleFileUrls} = resp.locals as TLocalsResponse
-            request.imageUrl = singleFileUrls[0]
+            request.imageUrl = singleFileUrls ? singleFileUrls[0] : IMAGE_PLACEHOLDER_URL
 
             const response = await Education.asModel(request).save()
             resp.status(200).send(response)
@@ -39,7 +40,7 @@ class EducationController {
             const request = req.body as IEducation
             const {singleFileUrls} = resp.locals as TLocalsResponse
 
-            if (typeof singleFileUrls !== "undefined" && singleFileUrls[0].length > 0) {
+            if (singleFileUrls && singleFileUrls[0].length > 0) {
                 request.imageUrl = singleFileUrls[0]
             }
             const [affectedCount] = await Education.update(

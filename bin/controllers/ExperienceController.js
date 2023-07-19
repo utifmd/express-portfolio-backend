@@ -55,13 +55,13 @@ class ExperienceController {
                 const { singleFileUrls, multipleFileUrls } = resp.locals; // passed by middleware
                 const request = req.body;
                 request.stack = JSON.parse(request.stack);
-                if (request.imageUrls) {
-                    request.imageUrls = JSON.parse(request.imageUrls);
-                    if (multipleFileUrls && multipleFileUrls.length > 0)
-                        request.imageUrls = [...request.imageUrls, ...multipleFileUrls];
+                request.imageUrls = request.imageUrls ? JSON.parse(request.imageUrls) : [];
+                if (multipleFileUrls && multipleFileUrls.length > 0) {
+                    request.imageUrls = [...request.imageUrls, ...multipleFileUrls];
                 }
-                if (singleFileUrls && singleFileUrls[0].length > 0)
+                if (singleFileUrls && singleFileUrls[0].length > 0) {
                     request.iconUrl = singleFileUrls[0];
+                }
                 const [affectedCount] = yield experience_model_1.Experience.update(JSON.parse(JSON.stringify(request)), { where: { id } });
                 if (affectedCount > 0) {
                     const response = experience_model_1.Experience.asModel(request);

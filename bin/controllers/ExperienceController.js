@@ -59,6 +59,8 @@ class ExperienceController {
                 if (multipleFileUrls && multipleFileUrls.length > 0) {
                     request.imageUrls = [...request.imageUrls, ...multipleFileUrls];
                 }
+                if (Array.isArray(request.imageUrls) && request.imageUrls.length < 1)
+                    request.imageUrls = null;
                 if (singleFileUrls && singleFileUrls[0].length > 0) {
                     request.iconUrl = singleFileUrls[0];
                 }

@@ -13,18 +13,20 @@ const file_model_1 = require("../models/file.model");
 const profile_model_1 = require("../models/profile.model");
 const profileData_model_1 = require("../models/profileData.model");
 const profileLink_model_1 = require("../models/profileLink.model");
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
 const { DB_HOST, DB_PASS, DB_USER, DB_NAME, DB_PORT, DB_DIALECT } = process.env;
 exports.sequelize = new sequelize_typescript_1.Sequelize(DB_NAME, DB_USER, DB_PASS, {
     host: DB_HOST,
     port: DB_PORT,
     dialect: DB_DIALECT,
     dialectModule: pg_1.default,
-    dialectOptions: {
+    /*dialectOptions: {
         encrypt: true,
-        ssl: {
+        ssl : {
             rejectUnauthorized: false
         }
-    },
+    },*/
     pool: {
         max: 2,
         min: 0,

@@ -3,17 +3,17 @@
   "version": "1.0.0-beta04",
   "private": true,
   "pre-commit": [
-    "ts.check",
+    "ts-check",
     "build",
     "add-build"
   ],
   "scripts": {
     "build": "rimraf bin && npx tsc",
     "prestart": "npm run build",
-    "start": "node bin/index.js",
+    "start": "node bin/app.js",
     "preserve": "npm run build",
-    "serve": "concurrently \"npx tsc -w\" \"nodemon bin/index.js\" ",
-    "ts.check": "tsc --project tsconfig.json",
+    "serve": "concurrently \"npx tsc -w\" \"nodemon bin/app.js\" ",
+    "ts-check": "tsc --project tsconfig.json",
     "add-build": "git add bin"
   },
   "dependencies": {

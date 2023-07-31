@@ -7,7 +7,9 @@ class EducationController {
         try {
             const query = req.query as IReqQuery
             const offset = (query.page || 0) * (query.size || 0)
-            const response = await Education.findAll({limit: query.size, offset})
+            const response = await Education.findAll({limit: query.size, offset, order: [
+                ['updatedAt', 'DESC']
+            ]})
             // .findAndCountAll({limit: size, offset: page})
             resp.status(200).send(response)
 
@@ -46,6 +48,7 @@ class EducationController {
             const [affectedCount] = await Education.update(
                 request, {where: {id}}
             )
+            request.updatedAt = new Date()
             if (affectedCount > 0) {
                 const response = Education.asModel(request)
                 resp.status(200).send(response)

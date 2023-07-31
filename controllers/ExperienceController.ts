@@ -7,7 +7,9 @@ class ExperienceController {
         try {
             const query = req.query as IReqQuery
             const offset = (query.page || 0) * (query.size || 0)
-            const response = await Experience.findAll({limit: query.size, offset})
+            const response = await Experience.findAll({limit: query.size, offset, order: [
+                ['updatedAt', 'DESC']
+            ]})
             resp.status(200).send(response)
 
         } catch (e) {
@@ -54,6 +56,7 @@ class ExperienceController {
             if (singleFileUrls && singleFileUrls[0].length > 0) {
                 request.iconUrl = singleFileUrls[0]
             }
+            request.updatedAt = new Date()
             const [affectedCount] = await Experience.update(
                 JSON.parse(JSON.stringify(request)), {where: {id}}
             )

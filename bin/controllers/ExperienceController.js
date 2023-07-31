@@ -17,7 +17,9 @@ class ExperienceController {
             try {
                 const query = req.query;
                 const offset = (query.page || 0) * (query.size || 0);
-                const response = yield experience_model_1.Experience.findAll({ limit: query.size, offset });
+                const response = yield experience_model_1.Experience.findAll({ limit: query.size, offset, order: [
+                        ['updatedAt', 'DESC']
+                    ] });
                 resp.status(200).send(response);
             }
             catch (e) {
@@ -64,6 +66,7 @@ class ExperienceController {
                 if (singleFileUrls && singleFileUrls[0].length > 0) {
                     request.iconUrl = singleFileUrls[0];
                 }
+                request.updatedAt = new Date();
                 const [affectedCount] = yield experience_model_1.Experience.update(JSON.parse(JSON.stringify(request)), { where: { id } });
                 if (affectedCount > 0) {
                     const response = experience_model_1.Experience.asModel(request);

@@ -17,7 +17,9 @@ class EducationController {
             try {
                 const query = req.query;
                 const offset = (query.page || 0) * (query.size || 0);
-                const response = yield education_model_1.Education.findAll({ limit: query.size, offset });
+                const response = yield education_model_1.Education.findAll({ limit: query.size, offset, order: [
+                        ['updatedAt', 'DESC']
+                    ] });
                 // .findAndCountAll({limit: size, offset: page})
                 resp.status(200).send(response);
             }
@@ -56,6 +58,7 @@ class EducationController {
                     request.imageUrl = singleFileUrls[0];
                 }
                 const [affectedCount] = yield education_model_1.Education.update(request, { where: { id } });
+                request.updatedAt = new Date();
                 if (affectedCount > 0) {
                     const response = education_model_1.Education.asModel(request);
                     resp.status(200).send(response);

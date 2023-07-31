@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "bin/index.js",
+      "src": "bin/index.ts",
       "use": "@vercel/node",
       "config": { "includeFiles": ["bin/**"] }
     }
@@ -10,7 +10,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "bin/index.js"
+      "dest": "bin/index.ts"
     }
   ]
 }

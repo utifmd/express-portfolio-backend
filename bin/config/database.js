@@ -28,7 +28,6 @@ exports.sequelize = new sequelize_typescript_1.Sequelize(DB_NAME, DB_USER, DB_PA
     pool: {
         max: 2,
         min: 0,
-        // acquire: 30000,
         idle: 10000
     }
 });
